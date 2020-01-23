@@ -1,0 +1,133 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<script src="js/jQuery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#listBtn").on("click", function() {
+		$.get("/boards", function(data) {
+		console.log(data);
+			
+		alert(JSON.stringify(data));
+		});
+	});
+
+	$("#readBtn").on("click", function(){
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.get("/boards/"+boardNoVal, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#registerBtn").on("click", function() {
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/boards",
+			data : JSON.stringify(boardObject), 
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			},
+			error : function(request, status, error) {
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	});
+	
+	$("#deleteBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/boards"+boardNoVal,
+			success : function(result) {
+				console.log("result:"+result);
+				
+				alert("result");
+			}
+		});
+	});
+	
+	$("#modifyBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject ={
+				boardNo : boardNoVal,
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/"+boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result:"+result);
+				alert(result);
+			}
+		});
+	});
+	
+});
+
+</script>
+
+<body>
+	<h1>Ajax Home</h1>
+	
+	<form>
+		boardNo:<input type="text" name="boardNo" value="" id="boardNo"><br>
+		title:<input type="text" value="" id="title"><br>
+		content:<input type="text" name="content" value="" id="content"><br>
+		writer:<input type="text" name="writer" value="" id="writer"><br>
+	</form>
+	
+	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
+		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button>
+	</div>
+</body>
+</html>
