@@ -108,6 +108,55 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#getBtn").on("click", function(){
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.get("/boards/"+boardNoVal, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#getJsonBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.getJSON("/boards/"+boardNoVal, function(data){
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	/*
+	$("#postBtn").on("click", function() {
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.post("/boards", boardObject, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+		
+	});*/
+	
 });
 
 </script>
@@ -117,7 +166,7 @@ $(document).ready(function() {
 	
 	<form>
 		boardNo:<input type="text" name="boardNo" value="" id="boardNo"><br>
-		title:<input type="text" value="" id="title"><br>
+		title:<input type="text" name="title" value="" id="title"><br>
 		content:<input type="text" name="content" value="" id="content"><br>
 		writer:<input type="text" name="writer" value="" id="writer"><br>
 	</form>
@@ -127,7 +176,10 @@ $(document).ready(function() {
 		<button id="readBtn">READ</button>
 		<button id="registerBtn">REGISTER</button>
 		<button id="deleteBtn">DELETE</button>
-		<button id="modifyBtn">MODIFY</button>
+		<button id="modifyBtn">MODIFY</button><br>
+		<button id="getBtn">GET</button>
+		<button id="getJsonBtn">GET JSON</button>
+		<button id="postBtn">POST</button>
 	</div>
 </body>
 </html>
