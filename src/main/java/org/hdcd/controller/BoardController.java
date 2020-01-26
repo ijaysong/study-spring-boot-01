@@ -48,11 +48,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<String> register(@RequestBody Board board) {
+	public ResponseEntity<String> register(Board board) {
+		// Q.파라미터의 @RequestBody를 지우고 나서 $.post의 415에러(Unsupported Media Type)가 해결되었다. 왜??
+		// A.@RequestBody 어노테이션은 POST 방식으로 전송된 HTTP 요청 데이터를 String 타입의 body 파라미터로 전달한다.
 		logger.info("register");
 		
-		ResponseEntity<String> entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-		return entity;
+		return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{boardNo}", method = RequestMethod.GET)
