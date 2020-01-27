@@ -88,4 +88,16 @@ public class BoardController {
 		
 		return entity;
 	}
+	
+	@RequestMapping(value="/read/{boardNo}")
+	public String readBoard(@PathVariable("boardNo") int boardNo) {
+		logger.info("read boardNo:" + boardNo);
+		return "READ boardNo:"+boardNo;
+	}
+	
+	@RequestMapping(value="/read2/{no}")
+	public String readBoard2(@PathVariable("no") int boardNo) {
+		logger.info("read2 boardNo:" + boardNo);
+		return "READ2 boardNo:"+boardNo;
+	}
 }

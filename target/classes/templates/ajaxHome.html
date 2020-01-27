@@ -187,6 +187,22 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#readBoardNoBtn").on("click", function() {
+		$.get("/boards/read/100", function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#readBoardNoBtn2").on("click", function() {
+		$.get("/boards/read2/50", function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
 });
 
 </script>
@@ -210,7 +226,9 @@ $(document).ready(function() {
 		<button id="getBtn">GET</button>
 		<button id="getJsonBtn">GET JSON</button>
 		<button id="postBtn">POST</button>
-		<button id="ajaxBtn">AJAX</button>
+		<button id="ajaxBtn">AJAX</button><br>
+		<button id="readBoardNoBtn">READ_1</button>
+		<button id="readBoardNoBtn2">READ_2</button>
 	</div>
 </body>
 </html>
