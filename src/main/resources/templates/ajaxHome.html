@@ -203,6 +203,115 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#putBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		}
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/" + boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF-8",
+			success:function(result) {
+				console.log("result" + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#patchBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		}
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PATCH",
+			url : "/boards/"+boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#putHeaderBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		}
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/"+boardNoVal,
+			<!-- X-HHTP-Method-Override 요청 헤더값을 "PUT"으로 지정한다 -->
+			header : {
+				"X-HTTP-Method-Override" : "PUT"
+			},
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
 });
 
 </script>
@@ -229,6 +338,9 @@ $(document).ready(function() {
 		<button id="ajaxBtn">AJAX</button><br>
 		<button id="readBoardNoBtn">READ_1</button>
 		<button id="readBoardNoBtn2">READ_2</button>
+		<button id="putBtn">PUT</button>
+		<button id="patchBtn">PATCH</button><br>
+		<button id="putHeaderBtn">HEADER</button>
 	</div>
 </body>
 </html>
