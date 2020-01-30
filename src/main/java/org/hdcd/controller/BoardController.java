@@ -135,4 +135,20 @@ public class BoardController {
 		ResponseEntity<String> entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		return entity;
 	}
+	
+	// produces 속성 값에 "application/xml" 미디어 타입을 지정한다
+	@RequestMapping(value="/{boardNo}", method=RequestMethod.GET, produces="application/xml")
+	public ResponseEntity<Board> readToJson(@PathVariable("boardNo") int boardNo) {
+		logger.info("readToXml");
+		
+		Board board = new Board();
+		
+		board.setTitle("제목");
+		board.setContent("내용입니다");
+		board.setWriter("홍길동");
+		board.setRegDate(new Date());
+		
+		ResponseEntity<Board> entity = new ResponseEntity<Board>(board, HttpStatus.OK);
+		return entity;
+	}
 }

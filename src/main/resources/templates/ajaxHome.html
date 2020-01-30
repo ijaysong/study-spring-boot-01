@@ -342,8 +342,42 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("#getXmlBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		$.ajax({
+			type : "get",
+			url : "/boards/"+boardNoVal,
+			headers : {
+				"Accept" : "application/xml"
+			},
+			success : function(result) {
+				console.log("result: "+result);
+				
+				alert(xmlToString(result));
+			}
+		});
+	});
 });
 
+function xmlToString(xmlData) {
+	var xmlString;
+	
+	if(window.ActiveXObject) {
+		xmlString = xmlData.xml;
+	} else {
+		xmlString = (new XMLSerializer()).serializeToString(xmlData);
+	}
+	
+	return xmlString;
+}
 </script>
 
 <body>
@@ -372,6 +406,7 @@ $(document).ready(function() {
 		<button id="patchBtn">PATCH</button><br>
 		<button id="putHeaderBtn">PUT HEADER</button>
 		<button id="putXmlBtn">PUT XML</button>
+		<button id="getXmlBtn">GET XML</button>
 	</div>
 </body>
 </html>
