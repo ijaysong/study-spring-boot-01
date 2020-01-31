@@ -32,4 +32,9 @@ public class HomeController {
 	public String ajaxHome() {
 		return "ajaxHome";
 	}
+	
+	@RequestMapping(value="/responseHome", method=RequestMethod.GET)
+	public String responseHome() {
+		return "responseHome";
+	}
 }
