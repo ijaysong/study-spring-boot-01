@@ -10,7 +10,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	<!-- 컨트롤러 응답 : void 타입 -->
+	<!-- 컨트롤러 응답 : 1. void 타입 -->
 	$("#registerBtn01").on("click", function() {
 		$.ajax({
 			type : "GET",
@@ -26,7 +26,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	<!-- 컨트롤러 응답 : String 타입 -->
+	<!-- 컨트롤러 응답 : 2. String 타입 -->
 	$("#registerBtn02").on("click", function(){
 		$.ajax({
 			type : "GET",
@@ -41,6 +41,150 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	<!-- 컨트롤러 응답 : 3. 자바빈즈 클래스 타입 -->
+	$("#registerBtn03").on("click", function(){
+		$.ajax({
+			type : "GET",
+			url : "/register03",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data){
+				console.log("data: " + data);
+				alert(JSON.stringify(data));				
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 4. 컬렉션 List 타입 -->
+	$("#registerBtn04").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register04",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error); 
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 5. 컬렉션 Map 타입 -->
+	$("#registerBtn05").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register05",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error); 
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 6. ResponseEntity<Void> 타입 -->	
+	$("#registerBtn06").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register06",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 7. ResponseEntity<String> 타입 -->
+	$("#registerBtn07").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register07",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 8. ResponseEntity<자바빈즈 클래스> 타입 -->
+	$("#registerBtn08").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register08",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 9. ResponseEntity<List> 타입 -->
+	$("#registerBtn09").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register09",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 10. ResponseEntity<Map> 타입 -->
+	$("#registerBtn10").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register10",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	<!-- 컨트롤러 응답 : 11. ResponseEntity<byte[]> 타입 -->
+	$("#registerBtn11").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/register11",
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.error + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
 });
 
 </script>
@@ -50,7 +194,16 @@ $(document).ready(function() {
 	
 	<div>
 		<button id="registerBtn01">REGISTER 01</button><br>
-		<button id="registerBtn02">REGISTER 02</button>
+		<button id="registerBtn02">REGISTER 02</button><br>
+		<button id="registerBtn03">REGISTER 03</button><br>
+		<button id="registerBtn04">REGISTER 04</button><br>
+		<button id="registerBtn05">REGISTER 05</button><br>
+		<button id="registerBtn06">REGISTER 06</button><br>
+		<button id="registerBtn07">REGISTER 07</button><br>
+		<button id="registerBtn08">REGISTER 08</button><br>
+		<button id="registerBtn09">REGISTER 09</button><br>
+		<button id="registerBtn10">REGISTER 10</button><br>
+		<button id="registerBtn11">REGISTER 11</button>
 	</div>
 </body>
 </html>
