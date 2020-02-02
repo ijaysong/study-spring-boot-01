@@ -1,0 +1,119 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<script src="js/jQuery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#requestBtn01").on("click", function() {
+		$.get("/request01/hongkd", function(result){
+			console.log("result: " + result);
+			alert(result);
+		});
+	});
+	
+	$("#requestBtn02").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request02/" + userIdVal + "/" + passwordVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn03").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request03",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn04").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request04?userId=" + userIdVal + "&password=" + passwordVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+});
+
+</script>
+
+<body>
+	<h1>Request Home</h1>
+		<form>
+		userId:<input type="text" name="userId" value="" id="userId"><br>
+		password:<input type="text" name="password" value="" id="password"><br>
+	</form>
+	
+	<div>
+		<button id="requestBtn01">REQUEST 01</button><br>
+		<button id="requestBtn02">REQUEST 02</button><br>
+		<button id="requestBtn03">REQUEST 03</button><br>
+		<button id="requestBtn04">REQUEST 04</button>
+	</div>
+</body>
+</html>
