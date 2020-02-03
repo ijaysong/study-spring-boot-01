@@ -98,6 +98,160 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("#requestBtn05").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+				userId : userIdVal,
+				password : passwordVal
+		}
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request05",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn06").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+				userId : userIdVal,
+				password : passwordVal
+		}
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request06/" + userIdVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn07").on("click", function() {
+		var userObjectArray = [
+			{
+				userId : "name01",
+				password : "pw01"
+			},
+			{
+				userId : "name02",
+				password : "pw02"
+			}
+		];
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request07",
+			data : JSON.stringify(userObjectArray),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn08").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			address : {
+				postCode : "010908",
+				location : "Seoul"
+			}
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request08",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn09").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			cardList : [
+				{
+					no : "23456",
+					validMonth : "2019-09-08"
+				},
+				{
+					no : "12342",
+					validMonth : "2020-07-05"
+				}
+			]
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request09",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
 });
 
 </script>
@@ -113,7 +267,12 @@ $(document).ready(function() {
 		<button id="requestBtn01">REQUEST 01</button><br>
 		<button id="requestBtn02">REQUEST 02</button><br>
 		<button id="requestBtn03">REQUEST 03</button><br>
-		<button id="requestBtn04">REQUEST 04</button>
+		<button id="requestBtn04">REQUEST 04</button><br>
+		<button id="requestBtn05">REQUEST 05</button><br>
+		<button id="requestBtn06">REQUEST 06</button><br>
+		<button id="requestBtn07">REQUEST 07</button><br>
+		<button id="requestBtn08">REQUEST 08</button><br>
+		<button id="requestBtn09">REQUEST 09</button>
 	</div>
 </body>
 </html>
