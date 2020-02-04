@@ -1,5 +1,6 @@
 package org.hdcd.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.hdcd.domain.Address;
@@ -146,5 +147,58 @@ public class RequestController {
 		
 		ResponseEntity<String> entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		return entity;
+	}
+	
+	// yyyy/MM/dd 날짜 문자열 형식은 Date 타입으로 변환에 실패한다
+	@RequestMapping(value="/date01", method=RequestMethod.POST)
+	public ResponseEntity<String> date01(@RequestBody Member member) {
+		logger.info("date01");
+		logger.info("userId = " + member.getUserId());
+		logger.info("password = " + member.getPassword());
+		logger.info("member.getDateOfBirth() = " + member.getDateOfBirth());
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+	
+	// yyyyMMdd 날짜 문자열 형식은 Date 타입으로 변환에 실패한다
+	@RequestMapping(value="/date02", method=RequestMethod.POST)
+	public ResponseEntity<String> date02(@RequestBody Member member) {
+		logger.info("date02");
+		logger.info("userId = " + member.getUserId());
+		logger.info("password = " + member.getPassword());
+		logger.info("member.getDateOfBirth() = " + member.getDateOfBirth());
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+	
+	// yyyy-MM-dd 날짜 문자열 형식은 Date 타입으로 성공적으로 변환된다
+	@RequestMapping(value="/date03", method=RequestMethod.POST)
+	public ResponseEntity<String> date03(@RequestBody Member member) {
+		logger.info("date03");
+		logger.info("userId = " + member.getUserId());
+		logger.info("password = " + member.getPassword());
+		logger.info("member.getDateOfBirth() = " + member.getDateOfBirth());
+		
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+	
+	// 자바 Date 타입의 JSON 날짜 형식을 @JsonFormat 애너테이션으로 지정하지 않으면 날짜 숫자값으로 표시된다
+	@RequestMapping(value="/read", method=RequestMethod.GET)
+	public ResponseEntity<Member> read() {
+		logger.info("read");
+		Member member = new Member();
+		member.setUserId("hongkd");
+		member.setPassword("1234");
+		
+		Calendar cal = Calendar.getInstance();
+		
+		int year = 1992;
+		int month = 8;
+		int date = 11;
+		cal.set(year, month-1, date);
+		
+		member.setDateOfBirth(cal.getTime());
+		
+		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
 }

@@ -252,6 +252,119 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("#DateBtn01").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "2019/09/08";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date01",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#DateBtn02").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "20190908";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date02",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#DateBtn03").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "2019-09-08";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date03",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#readBtn").on("click", function() {
+		$.ajax({
+			type : "GET", 
+			url : "/read",
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(JSON.stringify(result));
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
 });
 
 </script>
@@ -272,7 +385,11 @@ $(document).ready(function() {
 		<button id="requestBtn06">REQUEST 06</button><br>
 		<button id="requestBtn07">REQUEST 07</button><br>
 		<button id="requestBtn08">REQUEST 08</button><br>
-		<button id="requestBtn09">REQUEST 09</button>
+		<button id="requestBtn09">REQUEST 09</button><br>
+		<button id="DateBtn01">DATE 01 (yyyy/MM/dd)</button><br>
+		<button id="DateBtn02">DATE 02 (yyyyMMdd)</button><br>
+		<button id="DateBtn03">DATE 03 (yyyy-MM-dd)</button><br>
+		<button id="readBtn">READ</button>
 	</div>
 </body>
 </html>
