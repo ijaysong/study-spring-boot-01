@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class RequestController {
@@ -201,4 +202,16 @@ public class RequestController {
 		
 		return new ResponseEntity<Member>(member, HttpStatus.OK);
 	}
-}
+	
+	// Ajax 방식으로 전달한 파일 요소값을 스프링MVC가 지원하는 MultipartFile 매개변수로 처리한다
+	@RequestMapping(value="/upload", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public ResponseEntity<String> upload(MultipartFile file) throws Exception {
+		String originalFilename = file.getOriginalFilename();
+		
+		logger.info("originalName: " + originalFilename);
+		
+		ResponseEntity<String> entity = new ResponseEntity<String>("UPLOAD SUCCESS" + originalFilename, HttpStatus.OK);
+		
+		return entity;
+	}
+ }

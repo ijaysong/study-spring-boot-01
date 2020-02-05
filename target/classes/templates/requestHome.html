@@ -365,6 +365,31 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$("#inputFile").on("change", function(event) {
+		console.log("change");
+		
+		var files = event.target.files;
+		var file = files[0];
+		
+		console.log(file);
+		
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			type : "post",
+			url : "/upload",
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				alert(data);
+			}
+		});
+	});
 });
 
 </script>
@@ -389,7 +414,10 @@ $(document).ready(function() {
 		<button id="DateBtn01">DATE 01 (yyyy/MM/dd)</button><br>
 		<button id="DateBtn02">DATE 02 (yyyyMMdd)</button><br>
 		<button id="DateBtn03">DATE 03 (yyyy-MM-dd)</button><br>
-		<button id="readBtn">READ</button>
+		<button id="readBtn">READ</button><br>
+	</div>
+	<div>
+		<input type="file" id="inputFile">
 	</div>
 </body>
 </html>
