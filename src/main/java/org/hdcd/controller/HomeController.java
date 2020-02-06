@@ -42,4 +42,9 @@ public class HomeController {
 	public String requestHome() {
 		return "requestHome";
 	}
+	
+	@RequestMapping(value="/registerForm", method=RequestMethod.GET)
+	public String registerForm() {
+		return "registerForm";
+	}
 }
