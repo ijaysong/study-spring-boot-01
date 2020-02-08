@@ -14,12 +14,13 @@ $(document).ready(function() {
 		var password01 = $("#password");
 		var userName = $("#userName");
 		var email = $("#email");
+		var dateOfBirth = $("#dateOfBirth");
 		
 		var userId01Val = userId01.val();
 		var password01Val = password01.val();
 		var userNameVal = userName.val();
 		var emailVal = email.val();
-		
+		var dateOfBirthVal = dateOfBirth.val();
 		var genderVal = $('input[name="gender"]:checked').val();
 		
 		console.log(genderVal);
@@ -30,6 +31,7 @@ $(document).ready(function() {
 			password : password01Val,
 			userName : userNameVal,
 			email : emailVal,
+			dateOfBirth : dateOfBirthVal,
 			gender : genderVal
 		};
 		
@@ -71,11 +73,15 @@ $(document).ready(function() {
 			<td><input type="text" name="email" value="" id="email"></td>
 		</tr>
 		<tr>
+			<td>생년월일</td>
+			<td><input id="dateOfBirth" name="dateOfBirth" type="date" value=""></td>
+		</tr>
+		<tr>
 			<td>성별</td>
 			<td>
-				<input type="radio" name="gender" value="male" id="gender"><label for="gender1">Male</label><br>
-				<input type="radio" name="gender" value="female" id="gender2"><label for="gender2">Female</label><br>
-				<input type="radio" name="gender" value="other" id="gender3"><label for="gender3">Other</label>
+				<input type="radio" name="gender" value="Male" id="gender"><label for="gender1">Male</label><br>
+				<input type="radio" name="gender" value="Female" id="gender2"><label for="gender2">Female</label><br>
+				<input type="radio" name="gender" value="Other" id="gender3"><label for="gender3">Other</label>
 			</td>
 		</tr>
 	</table>

@@ -65,6 +65,7 @@ public class UserController {
 		logger.info("user.getpassword() = " + user.getPassword());
 		logger.info("user.getUserName() = " + user.getUserName());
 		logger.info("user.getEmail() = " + user.getEmail());
+		logger.info("user.getDateOfBirth() = " + user.getDateOfBirth());
 		logger.info("user.getGender() = " + user.getGender());
 		
 		ResponseEntity<String> entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
