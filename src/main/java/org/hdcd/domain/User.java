@@ -2,7 +2,9 @@ package org.hdcd.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
@@ -37,6 +39,27 @@ public class User implements Serializable{
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfBirth;
 	private String gender;
+	
+	// 중첩된 자바빈즈의 입력값 검증을 지정한다
+	@Valid
+	private Address address;
+	
+	// 자바빈즈 컬렉션의 입력값 검증을 지정한다
+	@Valid
+	private List<Card> cardList;
+	
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public List<Card> getCardList() {
+		return cardList;
+	}
+	public void setCardList(List<Card> cardList) {
+		this.cardList = cardList;
+	}
 	public String getUserId() {
 		return userId;
 	}

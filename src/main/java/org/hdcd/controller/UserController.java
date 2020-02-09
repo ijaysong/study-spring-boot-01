@@ -2,6 +2,8 @@ package org.hdcd.controller;
 
 import java.util.List;
 
+import org.hdcd.domain.Address;
+import org.hdcd.domain.Card;
 import org.hdcd.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,29 @@ public class UserController {
 		logger.info("user.getEmail() = " + user.getEmail());
 		logger.info("user.getDateOfBirth() = " + user.getDateOfBirth());
 		logger.info("user.getGender() = " + user.getGender());
+		
+		Address address = user.getAddress();
+		
+		if(address != null) {
+			logger.info("address != null address.getPostCode() = " + address.getPostCode());
+			logger.info("address != null address.getLocation() = " + address.getLocation());
+		} else {
+			logger.info("address == null");
+		}
+		
+		List<Card> cardList = user.getCardList();
+		
+		if(cardList != null) {
+			logger.info("cardList != null cardList.size() = " + cardList.size());
+			
+			for (int i = 0; i < cardList.size(); i++) {
+				Card card = cardList.get(i);
+				logger.info("card.getNo() = " + card.getNo());
+				logger.info("card.getValidMonth() = " + card.getValidMonth());
+			}
+		} else {
+			logger.info("cardList == null");
+		}
 		
 		ResponseEntity<String> entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		return entity;

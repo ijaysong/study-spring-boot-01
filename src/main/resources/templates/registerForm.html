@@ -16,12 +16,28 @@ $(document).ready(function() {
 		var email = $("#email");
 		var dateOfBirth = $("#dateOfBirth");
 		
+		<!-- 중첩된 자바 빈즈 -->
+		var addressPostCode = $("#addressPostCode");
+		var addressLocation = $("#addressLocation");
+		var cardNo1 = $("#cardNo1");
+		var cardValidMonth1 = $("#cardValidMonth1");
+		var cardNo2 = $("#cardNo2");
+		var cardValidMonth2 = $("#cardValidMonth2");
+		
 		var userId01Val = userId01.val();
 		var password01Val = password01.val();
 		var userNameVal = userName.val();
 		var emailVal = email.val();
 		var dateOfBirthVal = dateOfBirth.val();
 		var genderVal = $('input[name="gender"]:checked').val();
+		
+		<!-- 중첩된 자바 빈즈 -->
+		var addressPostCodeVal = addressPostCode.val();
+		var addressLocationVal = addressLocation.val();
+		var cardNo1Val = cardNo1.val();
+		var cardValidMonth1Val = cardValidMonth1.val();
+		var cardNo2Val = cardNo2.val();
+		var cardValidMonth2Val = cardValidMonth2.val();
 		
 		console.log(genderVal);
 		console.log(userId01Val);
@@ -32,7 +48,23 @@ $(document).ready(function() {
 			userName : userNameVal,
 			email : emailVal,
 			dateOfBirth : dateOfBirthVal,
-			gender : genderVal
+			gender : genderVal,
+			address : {
+				postCode : addressPostCodeVal,
+				location : addressLocationVal
+			},
+			cardList : [
+				{
+					no : cardNo1Val,
+					validMonth : cardValidMonth1Val,
+					
+				}, 
+				{
+					no : cardNo2Val,
+					validMonth : cardValidMonth2Val
+					
+				}
+			]
 		};
 		
 		$.ajax({
@@ -83,6 +115,30 @@ $(document).ready(function() {
 				<input type="radio" name="gender" value="Female" id="gender2"><label for="gender2">Female</label><br>
 				<input type="radio" name="gender" value="Other" id="gender3"><label for="gender3">Other</label>
 			</td>
+		</tr>
+		<tr>
+			<td>우편번호</td>
+			<td><input id="addressPostCode" type="text" value=""></td>
+		</tr>
+		<tr>
+			<td>주소</td>
+			<td><input id="addressLocation" type="text" value=""></td>
+		</tr>
+		<tr>
+			<td>카드1 - 번호</td>
+			<td><input id="cardNo1" type="text" value=""></td>
+		</tr>
+		<tr>
+			<td>카드1 - 유효년월</td>
+			<td><input id="cardValidMonth1" type="text" value=""></td>
+		</tr>
+		<tr>
+			<td>카드2 - 번호</td>
+			<td><input id="cardNo2" type="text" value=""></td>
+		</tr>
+		<tr>
+			<td>카드2 - 유효년월</td>
+			<td><input id="cardValidMonth2" type="text" value=""></td>
 		</tr>
 	</table>
 	
