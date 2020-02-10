@@ -366,6 +366,22 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#msgBtn").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/boards/welcome",
+			contentType : "application/json;charset=UTF-8",
+			dataType : "text",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(data);
+			},
+			error : function(request, status, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
 });
 
 function xmlToString(xmlData) {
@@ -407,7 +423,8 @@ function xmlToString(xmlData) {
 		<button id="patchBtn">PATCH</button><br>
 		<button id="putHeaderBtn">PUT HEADER</button>
 		<button id="putXmlBtn">PUT XML</button>
-		<button id="getXmlBtn">GET XML</button>
+		<button id="getXmlBtn">GET XML</button><br>
+		<button id="msgBtn">MESSAGE</button>
 	</div>
 </body>
 </html>

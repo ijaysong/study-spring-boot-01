@@ -3,10 +3,13 @@ package org.hdcd.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.hdcd.domain.Board;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/boards")
 public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
+	@Autowired
+	private MessageSource messageSource;
 	
 	// GET방식
 	@RequestMapping(value="", method=RequestMethod.GET)
@@ -149,6 +155,21 @@ public class BoardController {
 		board.setRegDate(new Date());
 		
 		ResponseEntity<Board> entity = new ResponseEntity<Board>(board, HttpStatus.OK);
+		return entity;
+	}
+	
+	@RequestMapping(value="/welcome", method=RequestMethod.GET, produces="application/json;charset=UTF-8")
+	public ResponseEntity<String> welcome() {
+		// 미리 정의된 메세지에 값을 넘겨준다
+		String[] args = {"홍길동"};
+		//String[] args = {"\uD64D\uAE38\uB3D9"};
+		
+		// 스프링 프레임워크(ResourceBundle Editor 플러그)로 부터 MessageSource를 주입받은 다음 getMessage 메서드를 호출한다
+		String message = messageSource.getMessage("welcome.message", args, Locale.KOREAN);
+		
+		logger.info("Welcome message : " + message);
+		ResponseEntity<String> entity = new ResponseEntity<String>(message, HttpStatus.OK);
+		
 		return entity;
 	}
 }
