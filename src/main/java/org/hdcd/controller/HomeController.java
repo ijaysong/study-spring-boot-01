@@ -47,4 +47,9 @@ public class HomeController {
 	public String registerForm() {
 		return "registerForm";
 	}
+	
+	@RequestMapping(value="/crudHome", method=RequestMethod.GET)
+	public String crudHome() {
+		return "crudHome";
+	}
 }
