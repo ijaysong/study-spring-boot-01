@@ -8,7 +8,10 @@
 <script>
 $(document).ready(function() {
 	$("#listBtn").on("click", function() {
-		//*** 이벤트 처리 로직 구현 ***//		
+		$.get("/bbs", function(data) {
+			console.log(data);
+			alert(JSON.stringify(data));
+		});
 	});
 	
 	$("#readBtn").on("click", function() {

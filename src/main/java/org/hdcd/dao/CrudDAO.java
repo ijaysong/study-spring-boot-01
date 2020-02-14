@@ -1,13 +1,19 @@
 package org.hdcd.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.List;
 
 import org.hdcd.domain.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -32,5 +38,27 @@ public class CrudDAO {
 			}
  		}, keyHolder);
 		board.setBoardNo(keyHolder.getKey().longValue());
+	}
+	
+	public List<Board> list() throws Exception {
+		String query = "SELECT board_no, title, content, writer, reg_date "
+				+ "FROM board WHERE board_no > 0 ORDER BY board_no DESC, reg_date DESC";
+		List<Board> results = jdbcTemplate.query(query, new RowMapper<Board>() {
+			
+			@Override
+			public Board mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Board board = new Board();
+				
+				board.setBoardNo(rs.getInt("board_no"));
+				board.setTitle(rs.getString("title"));
+				board.setContent(rs.getString("content"));
+				board.setWriter(rs.getString("writer"));
+				board.setRegDate(new Date(Timestamp.valueOf(rs.getString("reg_date")).getTime()));
+				
+				return board;
+			}
+		});
+		
+		return results;
 	}
 }
