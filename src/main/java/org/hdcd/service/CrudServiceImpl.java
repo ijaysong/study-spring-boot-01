@@ -23,4 +23,19 @@ public class CrudServiceImpl implements CrudService{
 		return dao.list();
 	}
 
+	@Override
+	public Board read(int boardNo) throws Exception {
+		return dao.read(boardNo);
+	}
+
+	@Override
+	public void modify(Board board) throws Exception {
+		dao.update(board);
+	}
+
+	@Override
+	public void remove(int boardNo) throws Exception {
+		dao.remove(boardNo);
+	}
+	
 }
