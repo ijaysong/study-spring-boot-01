@@ -1,6 +1,10 @@
 package org.hdcd.controller;
 
 import java.net.URI;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import org.hdcd.domain.Board;
@@ -26,6 +30,7 @@ public class CrudController {
 	@Autowired
 	private CrudService service;
 	
+	// JdbcTemplate 클래스 활용
 	// 등록
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public ResponseEntity<String> register(@Validated @RequestBody Board board, UriComponentsBuilder uriBuilder) throws Exception{
@@ -73,6 +78,59 @@ public class CrudController {
 		logger.info("remove");
 		
 		service.remove(boardNo);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	// JPA(Java Persistence API) 활용
+	// 등록
+	@RequestMapping(value="/register2", method=RequestMethod.POST)
+	public ResponseEntity<String> register2(@Validated @RequestBody Board board, UriComponentsBuilder uriBuilder) throws Exception{
+		logger.info("register2");
+		
+		board.setRegDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		service.register2(board);
+		
+		logger.info("register board.getBoardNo() = " + board.getBoardNo());
+		
+		URI resourceUri = uriBuilder.path("/bbs/regiser2").buildAndExpand(board.getBoardNo()).encode().toUri();
+		return ResponseEntity.created(resourceUri).build();
+	}
+		
+	// 목록 조회
+	@RequestMapping(value="/list2", method=RequestMethod.GET)
+	public ResponseEntity<List<Board>> list2() throws Exception{
+		logger.info("list2");
+		return new ResponseEntity<>(service.list2(), HttpStatus.OK);
+	}
+	
+	// 상세 조회
+	@RequestMapping(value="/read2/{boardNo}", method=RequestMethod.GET)
+	public ResponseEntity<Board> read2(@PathVariable("boardNo") int boardNo) throws Exception {
+		logger.info("read2");
+		
+		Board board = service.read2(boardNo);
+		
+		return new ResponseEntity<Board> (board, HttpStatus.OK);
+	}
+	
+	// 수정
+	@RequestMapping(value="/modify2/{boardNo}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> modify2(@PathVariable("boardNo") int boardNo, @Validated @RequestBody Board board) throws Exception{
+		logger.info("modify2");
+		
+		board.setBoardNo(boardNo);
+		service.modify2(board);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	// 삭제
+	@RequestMapping(value="/remove2/{boardNo}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> remove2(@PathVariable("boardNo") int boardNo) throws Exception {
+		logger.info("remove2");
+		
+		service.remove2(boardNo);
 		
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}

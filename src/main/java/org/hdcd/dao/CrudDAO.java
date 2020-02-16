@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.util.List;
 
 import org.hdcd.domain.Board;
@@ -37,7 +36,7 @@ public class CrudDAO {
 				return ps;
 			}
  		}, keyHolder);
-		board.setBoardNo(keyHolder.getKey().longValue());
+		board.setBoardNo(keyHolder.getKey().intValue());
 	}
 	
 	public List<Board> list() throws Exception {
