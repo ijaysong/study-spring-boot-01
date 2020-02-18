@@ -134,4 +134,19 @@ public class CrudController {
 		
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
+	
+	// Mybatis
+	// 등록
+	@RequestMapping(value="/register3", method=RequestMethod.POST)
+	public ResponseEntity<Void> register3(@Validated @RequestBody Board board, UriComponentsBuilder uriBuilder) throws Exception {
+		logger.info("register");
+		
+		service.register3(board);
+		
+		logger.info("register board.getBoardNo() = " + board.getBoardNo());
+		
+		URI resourceUri = uriBuilder.path("/bbs/register3").buildAndExpand().encode().toUri();
+		
+		return ResponseEntity.created(resourceUri).build();
+	}
  }

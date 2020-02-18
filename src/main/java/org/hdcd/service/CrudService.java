@@ -18,4 +18,7 @@ public interface CrudService {
 	public Board read2(int boardNo) throws Exception;
 	public void modify2(Board board) throws Exception;
 	public void remove2(int boardNo) throws Exception;
+	
+	// Mybatis
+	public void register3(Board board) throws Exception;
 }
