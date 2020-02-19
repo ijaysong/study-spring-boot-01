@@ -1,0 +1,430 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<script src="js/jQuery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$("#listBtn").on("click", function() {
+		$.get("/boards", function(data) {
+		console.log(data);
+			
+		alert(JSON.stringify(data));
+		});
+	});
+
+	$("#readBtn").on("click", function(){
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.get("/boards/"+boardNoVal, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#registerBtn").on("click", function() {
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/boards",
+			data : JSON.stringify(boardObject), 
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			},
+			error : function(request, status, error) {
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		});
+	});
+	
+	$("#deleteBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/boards"+boardNoVal,
+			success : function(result) {
+				console.log("result: "+result);
+				
+				alert("result");
+			}
+		});
+	});
+	
+	$("#modifyBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject ={
+				boardNo : boardNoVal,
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/"+boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#getBtn").on("click", function(){
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.get("/boards/"+boardNoVal, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#getJsonBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		console.log(boardNoVal);
+		
+		$.getJSON("/boards/"+boardNoVal, function(data){
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#postBtn").on("click", function() {
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		
+		$.post("/boards", boardObject, function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#ajaxBtn").on("click", function() {
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+				title : titleVal,
+				content : contentVal,
+				writer : writerVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/boards",
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF=8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(data);
+			},
+			error : function(request, status, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#readBoardNoBtn").on("click", function() {
+		$.get("/boards/read/100", function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#readBoardNoBtn2").on("click", function() {
+		$.get("/boards/read2/50", function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	$("#putBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/" + boardNoVal,
+			data : JSON.stringify(boardObject),
+			<!-- 요청의 contentType 헤더 값을 "application/json"으로 지정한다 -->
+			contentType : "application/json; charset=UTF-8",
+			success:function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#patchBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PATCH",
+			url : "/boards/"+boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#putHeaderBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/"+boardNoVal,
+			<!-- X-HHTP-Method-Override 요청 헤더값을 "PUT"으로 지정한다 -->
+			header : {
+				"X-HTTP-Method-Override" : "PUT"
+			},
+			data : JSON.stringify(boardObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#putXmlBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		var xmlData = "<Board>";
+		xmlData += "<boardNo>0</boardNo>";
+		xmlData += "<title>title</title>";
+		xmlData += "<content>content1</content>";
+		xmlData += "<writer>writer1</writer>";
+		xmlData += "<regDate>2018-12-10</regDate>";
+		xmlData += "</Board>";
+		
+		$.ajax({
+			type : "PUT",
+			url : "/boards/"+boardNoVal,
+			data : xmlData,
+			<!-- 요청의 contentType 헤더 값을 "application/xml"으로 지정한다 -->
+			contentType : "application/xml;charset=UTF-8",
+			success : function(result) {
+				console.log("result: "+result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#getXmlBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		if(boardNoVal === "") {
+			alert("write boardNo");
+			return "";
+		};
+		
+		$.ajax({
+			type : "get",
+			url : "/boards/"+boardNoVal,
+			headers : {
+				"Accept" : "application/xml"
+			},
+			success : function(result) {
+				console.log("result: "+result);
+				
+				alert(xmlToString(result));
+			}
+		});
+	});
+	
+	$("#msgBtn").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/boards/welcome",
+			contentType : "application/json;charset=UTF-8",
+			dataType : "text",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(data);
+			},
+			error : function(request, status, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+});
+
+function xmlToString(xmlData) {
+	var xmlString;
+	
+	if(window.ActiveXObject) {
+		xmlString = xmlData.xml;
+	} else {
+		xmlString = (new XMLSerializer()).serializeToString(xmlData);
+	}
+	
+	return xmlString;
+}
+</script>
+
+<body>
+	<h1>Ajax Home</h1>
+	
+	<form>
+		boardNo:<input type="text" name="boardNo" value="" id="boardNo"><br>
+		title:<input type="text" name="title" value="" id="title"><br>
+		content:<input type="text" name="content" value="" id="content"><br>
+		writer:<input type="text" name="writer" value="" id="writer"><br>
+	</form>
+	
+	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
+		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button><br>
+		<button id="getBtn">GET</button>
+		<button id="getJsonBtn">GET JSON</button>
+		<button id="postBtn">POST</button>
+		<button id="ajaxBtn">AJAX</button><br>
+		<button id="readBoardNoBtn">READ_1</button>
+		<button id="readBoardNoBtn2">READ_2</button>
+		<button id="putBtn">PUT</button>
+		<button id="patchBtn">PATCH</button><br>
+		<button id="putHeaderBtn">PUT HEADER</button>
+		<button id="putXmlBtn">PUT XML</button>
+		<button id="getXmlBtn">GET XML</button><br>
+		<button id="msgBtn">MESSAGE</button>
+	</div>
+</body>
+</html>

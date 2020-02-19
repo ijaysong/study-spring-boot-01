@@ -1,0 +1,423 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<script src="js/jQuery-2.1.4.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+	$("#requestBtn01").on("click", function() {
+		$.get("/request01/hongkd", function(result){
+			console.log("result: " + result);
+			alert(result);
+		});
+	});
+	
+	$("#requestBtn02").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request02/" + userIdVal + "/" + passwordVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn03").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request03",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn04").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/request04?userId=" + userIdVal + "&password=" + passwordVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn05").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+				userId : userIdVal,
+				password : passwordVal
+		}
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request05",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn06").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+				userId : userIdVal,
+				password : passwordVal
+		}
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request06/" + userIdVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn07").on("click", function() {
+		var userObjectArray = [
+			{
+				userId : "name01",
+				password : "pw01"
+			},
+			{
+				userId : "name02",
+				password : "pw02"
+			}
+		];
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request07",
+			data : JSON.stringify(userObjectArray),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn08").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			address : {
+				postCode : "010908",
+				location : "Seoul"
+			}
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request08",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#requestBtn09").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			cardList : [
+				{
+					no : "23456",
+					validMonth : "2019-09-08"
+				},
+				{
+					no : "12342",
+					validMonth : "2020-07-05"
+				}
+			]
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/request09",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}
+		});
+	});
+	
+	$("#DateBtn01").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "2019/09/08";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date01",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#DateBtn02").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "20190908";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date02",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#DateBtn03").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#password");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		var dateOfBirthVal = "2019-09-08";
+		
+		if(userIdVal === "" || passwordVal === "") {
+			alert("Write userId or password");
+			return "";
+		}
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal,
+			dateOfBirth : dateOfBirthVal
+		};
+		
+		$.ajax({
+			type : "POST", 
+			url : "/date03",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#readBtn").on("click", function() {
+		$.ajax({
+			type : "GET", 
+			url : "/read",
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(JSON.stringify(result));
+			}, error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#inputFile").on("change", function(event) {
+		console.log("change");
+		
+		var files = event.target.files;
+		var file = files[0];
+		
+		console.log(file);
+		
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			type : "post",
+			url : "/upload",
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				alert(data);
+			}
+		});
+	});
+});
+
+</script>
+
+<body>
+	<h1>Request Home</h1>
+		<form>
+		userId:<input type="text" name="userId" value="" id="userId"><br>
+		password:<input type="text" name="password" value="" id="password"><br>
+	</form>
+	
+	<div>
+		<button id="requestBtn01">REQUEST 01</button><br>
+		<button id="requestBtn02">REQUEST 02</button><br>
+		<button id="requestBtn03">REQUEST 03</button><br>
+		<button id="requestBtn04">REQUEST 04</button><br>
+		<button id="requestBtn05">REQUEST 05</button><br>
+		<button id="requestBtn06">REQUEST 06</button><br>
+		<button id="requestBtn07">REQUEST 07</button><br>
+		<button id="requestBtn08">REQUEST 08</button><br>
+		<button id="requestBtn09">REQUEST 09</button><br>
+		<button id="DateBtn01">DATE 01 (yyyy/MM/dd)</button><br>
+		<button id="DateBtn02">DATE 02 (yyyyMMdd)</button><br>
+		<button id="DateBtn03">DATE 03 (yyyy-MM-dd)</button><br>
+		<button id="readBtn">READ</button><br>
+	</div>
+	<div>
+		<input type="file" id="inputFile">
+	</div>
+</body>
+</html>

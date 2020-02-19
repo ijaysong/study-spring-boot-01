@@ -149,4 +149,12 @@ public class CrudController {
 		
 		return ResponseEntity.created(resourceUri).build();
 	}
+	
+	// 목록 조회
+	@RequestMapping(value="/list3", method=RequestMethod.GET)
+	public ResponseEntity<List<Board>> list3() throws Exception {
+		logger.info("list");
+		
+		return new ResponseEntity<>(service.list3(), HttpStatus.OK);
+	}
  }
