@@ -1,5 +1,5 @@
 package org.hdcd.dao;
-/*
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,10 +18,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 
-
-@Repository*/
+@Repository
 public class CrudDAO {
-	/*
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
@@ -95,5 +94,5 @@ public class CrudDAO {
 		
 		jdbcTemplate.update(query, boardNo);
 	}
-	*/
+	
 }

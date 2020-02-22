@@ -139,7 +139,7 @@ public class CrudController {
 	// 등록
 	@RequestMapping(value="/register3", method=RequestMethod.POST)
 	public ResponseEntity<Void> register3(@Validated @RequestBody Board board, UriComponentsBuilder uriBuilder) throws Exception {
-		logger.info("register");
+		logger.info("register3");
 		
 		service.register3(board);
 		
@@ -153,8 +153,39 @@ public class CrudController {
 	// 목록 조회
 	@RequestMapping(value="/list3", method=RequestMethod.GET)
 	public ResponseEntity<List<Board>> list3() throws Exception {
-		logger.info("list");
+		logger.info("list3");
 		
 		return new ResponseEntity<>(service.list3(), HttpStatus.OK);
+	}
+	
+	// 상세 조회
+	@RequestMapping(value="/read3/{boardNo}", method=RequestMethod.GET)
+	public ResponseEntity<Board> read3(@PathVariable("boardNo") int boardNo) throws Exception {
+		logger.info("read3");
+		
+		Board board = service.read3(boardNo);
+		
+		return new ResponseEntity<>(board, HttpStatus.OK);
+	}
+	
+	// 수정
+	@RequestMapping(value="/modify3/{boardNo}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> modify3(@PathVariable("boardNo") int boardNo, @Validated @RequestBody Board board) throws Exception {
+		logger.info("modify3");
+		
+		board.setBoardNo(boardNo);
+		service.modify3(board);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	// 삭제
+	@RequestMapping(value="/delete3/{boardNo}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete3(@PathVariable("boardNo") int boardNo) throws Exception {
+		logger.info("delete");
+		
+		service.delete3(boardNo);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); 
 	}
  }

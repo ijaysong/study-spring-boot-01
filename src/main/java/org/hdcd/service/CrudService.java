@@ -21,4 +21,8 @@ public interface CrudService {
 	
 	// Mybatis
 	public void register3(Board board) throws Exception;
+	public List<Board> list3() throws Exception;
+	public Board read3(int boardNo) throws Exception;
+	public void modify3(Board board) throws Exception;
+	public void delete3(int boardNo) throws Exception;
 }

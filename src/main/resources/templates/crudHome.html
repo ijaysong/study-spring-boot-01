@@ -289,7 +289,25 @@ $(document).ready(function() {
 	
 	// 상세 조회
 	$("#readBtn3").on("click", function() {
-		// *** 이벤트 처리 로직 구현 ***//
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		$.ajax({
+			type : "GET",
+			url : "/bbs/read3/" + boardNoVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log(data);
+				alert(JSON.stringify(data));
+				
+				$("#title").val(data.title);
+				$("#content").val(data.content);
+				$("#writer").val(data.writer);
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	// 등록
@@ -309,7 +327,7 @@ $(document).ready(function() {
 		};
 		
 		$.ajax({
-			type : "POST",
+			type : "GET",
 			url : "/bbs/register3",
 			data : JSON.stringify(boardObject),
 			contentType : "application/json; charset=UTF-8",
@@ -324,12 +342,53 @@ $(document).ready(function() {
 	
 	// 삭제
 	$("#deleteBtn3").on("click", function() {
-		// *** 이벤트 처리 로직 구현 ***//
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/bbs/delete3/" + boardNoVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Deleted");
+			}, 
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	// 수정
 	$("#modifyBtn3").on("click", function() {
-		// *** 이벤트 처리 로직 구현 ***//
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/bbs/modify3/" + boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Modified");
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error); 
+			}
+		});
 	});
 	
 	$("#resetBtn3").on("click", function() {
