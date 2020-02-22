@@ -18,7 +18,8 @@
 		)
 	</insert>
 	
-	<select id="read" resultType="org.hdcd.domain.Board">
+	<!-- 패키지명을 생략하고 클래스 명만 지정할 수 있다 -->
+	<select id="read" resultType="Board">
 		SELECT 
 			board_no AS boardNo,
 			title,
@@ -45,7 +46,8 @@
 		WHERE board_no = #{boardNo}
 	</delete>
 	
-	<select id="list" resultType="org.hdcd.domain.Board">
+	<!-- 패키지명을 생략하고 클래스 명만 지정할 수 있다 -->
+	<select id="list" resultType="Board">
 		<![CDATA[
 		SELECT 
 			board_no AS boardNo,
