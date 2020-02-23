@@ -1,11 +1,13 @@
 package org.hdcd.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Member {
+public class Member implements Serializable{
+	private static final long serialVersionUID = -3367660229737526956L;
 	private String userId;
 	private String password;
 	private int coin;
@@ -17,21 +19,11 @@ public class Member {
 	
 	private List<Card> cardList;
 	
-	public List<Card> getCardList() {
-		return cardList;
-	}
-
-	public void setCardList(List<Card> cardList) {
-		this.cardList = cardList;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+	private int userNo;
+	private String userPw;
+	private String userName;
+	private Date regDate;
+	private Date updDate;
 
 	public String getUserId() {
 		return userId;
@@ -64,6 +56,61 @@ public class Member {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
-	
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public List<Card> getCardList() {
+		return cardList;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+	public void setCardList(List<Card> cardList) {
+		this.cardList = cardList;
+	}
+
+	public String getUserPw() {
+		return userPw;
+	}
+
+	public void setUserPw(String userPw) {
+		this.userPw = userPw;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Date getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
+
+	public Date getUpdDate() {
+		return updDate;
+	}
+
+	public void setUpdDate(Date updDate) {
+		this.updDate = updDate;
+	}
+
 }

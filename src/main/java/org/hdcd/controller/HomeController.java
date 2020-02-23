@@ -52,4 +52,9 @@ public class HomeController {
 	public String crudHome() {
 		return "crudHome";
 	}
+	
+	@RequestMapping(value="/memberHome", method=RequestMethod.GET)
+	public String memberHome() {
+		return "memberHome";
+	}
 }

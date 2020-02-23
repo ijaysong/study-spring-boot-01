@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.hdcd.mapper.MemberMapper">
+
+	<!-- 데이터베이스 측에서 채번된 기본키를 인수로 전달한 자바빈의 프로퍼티를 취득할 수 있다. -->
+	<insert id="createMember" useGeneratedKeys="true" keyProperty="userNo">
+		INSERT INTO dev_db.member
+		(
+			user_id,
+			user_pw,
+			user_name
+		)
+		VALUES
+		(
+			#{userId},
+			#{userPw},
+			#{userName}
+		)
+	</insert>
+	
+	<insert id="createAuth">
+		INSERT dev_db.member_auth
+		(
+			user_no,
+			auth
+		)
+		VALUES
+		(
+			#{userNo},
+			#{auth}
+		)
+	</insert>
+	
+</mapper>
