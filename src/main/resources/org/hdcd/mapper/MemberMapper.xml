@@ -3,6 +3,23 @@
 
 <mapper namespace="org.hdcd.mapper.MemberMapper">
 
+	<!-- 외부 조인을 사용하여 얻은 검색 결과에 대한 매핑을 정의한다. -->
+	<resultMap type="Member" id="memberMap">
+		<id property="userNo" column="user_no"/>
+		<result property="userNo" column="user_no"/>
+		<result property="userId" column="user_id"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="userName" column="user_name"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="updDate" column="upd_date"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<resultMap type="MemberAuth" id="authMap">
+		<result property="userNo" column="user_no"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
 	<!-- 데이터베이스 측에서 채번된 기본키를 인수로 전달한 자바빈의 프로퍼티를 취득할 수 있다. -->
 	<insert id="createMember" useGeneratedKeys="true" keyProperty="userNo">
 		INSERT INTO dev_db.member
@@ -19,6 +36,55 @@
 		)
 	</insert>
 	
+	<!-- 기준 객체와 관계 객체를 작성하는 데 필요한 모든 레코드를 검색하도록 외부 조인을 사용한 SQL을 정의한다. -->
+	<select id="readMember" resultMap="memberMap">
+		SELECT
+			mem.user_no,
+			mem.user_id,
+			mem.user_pw,
+			mem.user_name,
+			mem.reg_date,
+			mem.upd_date,
+			auth.auth
+		FROM
+			dev_db.member mem
+		LEFT OUTER JOIN 
+			dev_db.member_auth auth
+		ON
+			mem.user_no = auth.user_no
+		WHERE
+			mem.user_no = #{userNo}
+	</select>
+	
+	<update id="updateMember">
+		UPDATE
+			dev_db.member
+		SET
+			user_name = #{userName}
+		WHERE
+			user_no = #{userNo}
+	</update>
+	
+	<delete id="deleteMember">
+		DELETE FROM 
+			dev_db.member
+		WHERE
+			user_no = #{userNo}
+	</delete>
+	
+	<select id="listMember" resultType="Member">
+		SELECT
+			user_no,
+			user_id,
+			user_pw,
+			user_name,
+			reg_date
+		FROM
+			dev_db.member
+		ORDER BY
+			reg_date DESC
+	</select>
+	
 	<insert id="createAuth">
 		INSERT dev_db.member_auth
 		(
@@ -31,5 +97,12 @@
 			#{auth}
 		)
 	</insert>
+	
+	<delete id="deleteAuth">
+		DELETE FROM
+			dev_db.member_auth
+		WHERE
+			user_no = #{userNo}
+	</delete>
 	
 </mapper>
