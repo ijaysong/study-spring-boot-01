@@ -9,6 +9,66 @@
 
 <script>
 $(document).ready(function() {
+	
+	// 목록 조회
+	$("#listBtn").on("click", function() {
+		$.get("/users", function(data) {
+			console.log(data);
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	// 상세 조회
+	$("#readBtn").on("click", function() {
+		var userNo = $("#userNo");
+		var userNoVal = userNo.val();
+		
+		console.log(userNoVal);
+		
+		$.ajax({
+			type : "GET",
+			url : "/users/read/" + userNoVal,
+			contentType : "application/json; charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				
+				alert(JSON.stringify(data));
+				
+				$("#userId").val(data.userId);
+				$("#userPw").val(data.userPw);
+				$("#userName").val(data.userName);
+				
+				if(data.authList[0]) {
+					$("#authList0\\.auth").val(data.authList[0].auth);
+				}
+				
+				if(data.authList[1]) {
+					$("#authList1\\.auth").val(data.authList[1].auth);
+				}
+				
+				if(data.authList[2]) {
+					$("#authList2\\.auth").val(data.authList[2].auth);
+				}
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#registerBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#deleteBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#modifyBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	// 등록
 	$("#registerBtn").on("click", function(){
 		var userId = $("#userId");
 		var userPw = $("#userPw");
@@ -26,7 +86,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type : "POST",
-			url : "/users",
+			url : "/users/register",
 			data : JSON.stringify(userObject),
 			contentType : "application/json;charset=UTF-8",
 			success : function() {
@@ -36,7 +96,17 @@ $(document).ready(function() {
 				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
 			}
 		})
-	})
+	});
+	
+	$("#resetBtn").on("click", function(){
+		$("#userNo").val("");
+		$("#userId").val("");
+		$("#userPw").val("");
+		$("#userName").val("");
+		$("#authList0\\.auth").val("");
+		$("#authList1\\.auth").val("");
+		$("#authList2\\.auth").val("");
+	});
 })
 </script>
 
@@ -44,6 +114,10 @@ $(document).ready(function() {
 	<h1>ajax Home</h1>
 	
 	<table>
+		<tr>
+			<td><label for="userNo">userNo</label></td>
+			<td><input type="text" name="userNo" value="" id="userNo"></td>
+		</tr>
 		<tr>
 			<td><label for="userId">userId</label></td>
 			<td><input type="text" name="userId" value="" id="userId"></td>
@@ -56,10 +130,51 @@ $(document).ready(function() {
 			<td><label for="userName">userName</label></td>
 			<td><input type="text" name="userName" value="" id="userName"></td>
 		</tr>
+		
+		<tr>
+			<td>auth - 1</td>
+			<td>
+				<select id="authList0.auth" name="authList[0].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>auth - 2</td>
+			<td>
+				<select id="authList1.auth" name="authList[1].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>auth - 3</td>
+			<td>
+				<select id="authList2.auth" name="authList[2].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
 	</table>
 	
 	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
 		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button>
+		<button id="resetBtn">RESET</button>
 	</div>
 </body>
 </html>

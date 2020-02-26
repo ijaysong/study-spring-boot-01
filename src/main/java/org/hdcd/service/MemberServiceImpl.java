@@ -1,5 +1,7 @@
 package org.hdcd.service;
 
+import java.util.List;
+
 import org.hdcd.domain.Member;
 import org.hdcd.domain.MemberAuth;
 import org.hdcd.mapper.MemberMapper;
@@ -12,6 +14,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberMapper mapper;
 
+	// 등록
 	@Transactional
 	@Override
 	public void register(Member member) throws Exception {
@@ -23,6 +26,18 @@ public class MemberServiceImpl implements MemberService{
 		memberAuth.setAuth("ROLE_USER");
 		
 		mapper.createAuth(memberAuth);
+	}
+
+	// 목록조회
+	@Override
+	public List<Member> list() throws Exception {
+		return mapper.listMember();
+	}
+
+	// 상세 조회
+	@Override
+	public Member read(int userNo) throws Exception {
+		return mapper.readMember(userNo);
 	}
 	
 }

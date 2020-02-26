@@ -14,9 +14,7 @@ public class Member implements Serializable{
 	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date dateOfBirth;
-	
 	private Address address;
-	
 	private List<Card> cardList;
 	
 	private int userNo;
@@ -24,6 +22,7 @@ public class Member implements Serializable{
 	private String userName;
 	private Date regDate;
 	private Date updDate;
+	private List<MemberAuth> authList;
 
 	public String getUserId() {
 		return userId;
@@ -111,6 +110,14 @@ public class Member implements Serializable{
 
 	public void setUpdDate(Date updDate) {
 		this.updDate = updDate;
+	}
+
+	public List<MemberAuth> getAuthList() {
+		return authList;
+	}
+
+	public void setAuthList(List<MemberAuth> authList) {
+		this.authList = authList;
 	}
 
 }
