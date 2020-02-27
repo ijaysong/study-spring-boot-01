@@ -58,4 +58,15 @@ public class UsersController {
 		return new ResponseEntity<>(member, HttpStatus.OK);
 	}
 	
+	// 수정
+	@RequestMapping(value="/modify/{userNo}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> modify(@PathVariable("userNo") int userNo, @Validated @RequestBody Member member) throws Exception {
+		logger.info("modify");
+		
+		member.setUserNo(userNo);
+		service.modify(member);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
 }

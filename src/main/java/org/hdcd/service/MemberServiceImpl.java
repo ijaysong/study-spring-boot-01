@@ -39,5 +39,34 @@ public class MemberServiceImpl implements MemberService{
 	public Member read(int userNo) throws Exception {
 		return mapper.readMember(userNo);
 	}
+
+	// 	수정
+	@Override
+	public void modify(Member member) throws Exception {
+		mapper.updateMember(member);
+		
+		int userNo = member.getUserNo();
+		
+		mapper.deleteAuth(userNo);
+		
+		List<MemberAuth> authList = member.getAuthList();
+		
+		for(int i = 0; i < authList.size(); i++) {
+			MemberAuth memberAuth = authList.get(i);
+			String auth = memberAuth.getAuth();
+			
+			if(auth == null) {
+				continue;
+			}
+			
+			if(auth.trim().length() == 0) {
+				continue;
+			}
+			
+			memberAuth.setUserNo(userNo);
+			
+			mapper.createAuth(memberAuth);
+		}
+	}
 	
 }

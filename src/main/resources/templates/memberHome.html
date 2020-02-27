@@ -64,8 +64,60 @@ $(document).ready(function() {
 		//*** 이벤트 처리 로직 구현 ***//
 	});
 	
+	// 수정
 	$("#modifyBtn").on("click", function() {
-		//*** 이벤트 처리 로직 구현 ***//
+		var userNo = $("#userNo");
+		var userId = $("#userId");
+		var userPw = $("#userPw");
+		var userName = $("#userName");
+		var auth1 = $("#authList0\\.auth");
+		var auth2 = $("#authList1\\.auth");
+		var auth3 = $("#authList2\\.auth");
+		
+		var userNoVal = userNo.val();
+		var userIdVal = userId.val();
+		var userPwVal = userPw.val();
+		var userNameVal = userName.val();
+		var authVal1 = auth1.val();
+		var authVal2 = auth2.val();
+		var authVal3 = auth3.val();
+		
+		console.log("authVal1 = " + authVal1);
+		console.log("authVal2 = " + authVal2);
+		console.log("authVal3 = " + authVal3);
+		
+		var userObject = {
+			userId : userIdVal,
+			userPw : userPwVal,
+			userName : userNameVal,
+			authList : [
+				{
+					userNo : userNoVal,
+					auth : authVal1
+				},
+				{
+					userNo : userNoVal,
+					auth : authVal2
+				},
+				{
+					userNo : userNoVal,
+					auth : authVal3
+				}
+			]
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/users/modify/" + userNoVal,
+			data : JSON.stringify(userObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function() {
+				alert("Modified");
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.response + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	// 등록
