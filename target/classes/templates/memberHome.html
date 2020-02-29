@@ -57,11 +57,45 @@ $(document).ready(function() {
 	});
 	
 	$("#registerBtn").on("click", function() {
-		//*** 이벤트 처리 로직 구현 ***//
+		/*
+		var userId = $("#userId");
+		var userPw = $("#userPw");
+		var userName = $("#userName");
+		
+		var userIdVal = userId.val();
+		var userPwVal = userPw.val();
+		var userNameVal = userName.val();
+		
+		var userObject = {
+			userId : userIdVal,
+			userPw : userPwVal,
+			userName : userNameVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/users/register",
+			data : JSON
+		})*/
 	});
 	
 	$("#deleteBtn").on("click", function() {
-		//*** 이벤트 처리 로직 구현 ***//
+		var userNo = $("#userNo");
+		var userNoVal = userNo.val();
+		
+		console.log(userNoVal);
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/users/delete/" + userNoVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("DELETE");
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "n" + "error: " + error);
+			}
+		})
 	});
 	
 	// 수정

@@ -69,4 +69,14 @@ public class UsersController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
+	// 삭제
+	@RequestMapping(value="/delete/{userNo}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> remove(@PathVariable("userNo") int userNo) throws Exception {
+		logger.info("remove");
+		
+		service.remove(userNo);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
 }

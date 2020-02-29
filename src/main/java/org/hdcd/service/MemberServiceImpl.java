@@ -68,5 +68,12 @@ public class MemberServiceImpl implements MemberService{
 			mapper.createAuth(memberAuth);
 		}
 	}
+
+	// 삭제
+	@Override
+	public void remove(int userNo) throws Exception {
+		mapper.deleteAuth(userNo);
+		mapper.deleteMember(userNo);
+	}
 	
 }
