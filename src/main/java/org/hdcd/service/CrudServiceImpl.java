@@ -111,4 +111,9 @@ public class CrudServiceImpl implements CrudService {
 	public void delete3(int boardNo) throws Exception {
 		mapper.delete(boardNo);
 	}
+
+	@Override
+	public List<Board> search(String title) throws Exception {
+		return mapper.search(title);
+	}
 }

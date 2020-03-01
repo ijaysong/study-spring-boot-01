@@ -3,6 +3,7 @@ package org.hdcd.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.hdcd.domain.Board;
 
 @Mapper
@@ -14,4 +15,5 @@ public interface BoardMapper {
 	public void update(Board board) throws Exception;
 	public void delete(int boardNo) throws Exception;
 	public List<Board> list() throws Exception;
+	public List<Board> search(@Param("title") String title) throws Exception;
 }

@@ -25,4 +25,7 @@ public interface CrudService {
 	public Board read3(int boardNo) throws Exception;
 	public void modify3(Board board) throws Exception;
 	public void delete3(int boardNo) throws Exception;
+	
+	// 동적 SQL
+	public List<Board> search(String title) throws Exception;
 }

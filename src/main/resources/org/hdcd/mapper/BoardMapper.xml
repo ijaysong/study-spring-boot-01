@@ -67,4 +67,30 @@
 		]]>
 	</select>
 	
+	<select id="search" resultType="Board">
+		<![CDATA[
+		SELECT
+			board_no,
+			title,
+			content,
+			writer,
+			reg_date
+		FROM
+			dev_db.board
+		WHERE
+			board_no > 0
+		]]>
+		
+		<!-- title이 빈 값이 아니면 쿼리를 포함한다 -->
+		<if test="title != null and title != ''">
+		AND title LIKE CONCAT('%', #{title}, '%')
+		</if>
+		
+		<![CDATA[
+		ORDER BY 
+			board_no DESC,
+			reg_date DESC
+		]]>
+	</select>
+	
 </mapper>

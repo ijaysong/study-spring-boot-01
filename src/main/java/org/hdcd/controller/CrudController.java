@@ -1,19 +1,20 @@
 package org.hdcd.controller;
 
 import java.net.URI;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
 import org.hdcd.domain.Board;
+import org.hdcd.domain.SearchQuery;
 import org.hdcd.service.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -187,5 +188,17 @@ public class CrudController {
 		service.delete3(boardNo);
 		
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); 
+	}
+	
+	// 검색
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public ResponseEntity<List<Board>> search(@Validated @RequestBody SearchQuery searchQuery, Model model) throws Exception {
+		logger.info("search");
+		
+		String title = searchQuery.getTitle();
+		
+		logger.info("search title = " + title);
+		
+		return new ResponseEntity<>(service.search(title), HttpStatus.OK);
 	}
  }

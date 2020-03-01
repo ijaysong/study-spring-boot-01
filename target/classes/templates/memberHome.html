@@ -56,8 +56,8 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#registerBtn").on("click", function() {
-		/*
+	// 등록
+	$("#registerBtn").on("click", function(){
 		var userId = $("#userId");
 		var userPw = $("#userPw");
 		var userName = $("#userName");
@@ -75,8 +75,15 @@ $(document).ready(function() {
 		$.ajax({
 			type : "POST",
 			url : "/users/register",
-			data : JSON
-		})*/
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Created");
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		})
 	});
 	
 	$("#deleteBtn").on("click", function() {
@@ -152,36 +159,6 @@ $(document).ready(function() {
 				alert("code: " + xhr.status + "\n" + "message: " + xhr.response + "\n" + "error: " + error);
 			}
 		});
-	});
-	
-	// 등록
-	$("#registerBtn").on("click", function(){
-		var userId = $("#userId");
-		var userPw = $("#userPw");
-		var userName = $("#userName");
-		
-		var userIdVal = userId.val();
-		var userPwVal = userPw.val();
-		var userNameVal = userName.val();
-		
-		var userObject = {
-			userId : userIdVal,
-			userPw : userPwVal,
-			userName : userNameVal
-		};
-		
-		$.ajax({
-			type : "POST",
-			url : "/users/register",
-			data : JSON.stringify(userObject),
-			contentType : "application/json;charset=UTF-8",
-			success : function() {
-				alert("Created");
-			},
-			error : function(xhr, status, error) {
-				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
-			}
-		})
 	});
 	
 	$("#resetBtn").on("click", function(){

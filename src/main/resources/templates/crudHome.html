@@ -397,6 +397,30 @@ $(document).ready(function() {
 		$("#content").val("");
 		$("#writer").val("");
 	});
+	
+	// 	검색
+	$("#searchBtn").on("click", function(){
+		var searchKeyword = $("#searchKeyword");
+		var searchKeywordVal = searchKeyword.val();
+		
+		var searchQueryObject = {
+			title : searchKeywordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/bbs/search",
+			data : JSON.stringify(searchQueryObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log(data);
+				alert(JSON.stringify(data));
+			},
+			error : function(xhr, textStatus, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
 });
 </script>
 
@@ -444,6 +468,19 @@ $(document).ready(function() {
 		<button id="deleteBtn3">DELETE</button>
 		<button id="modifyBtn3">MODIFY</button>
 		<button id="resetBtn3">RESET</button>
+		
+		<br>Search<br>
+		
+		<table>
+			<tr>
+				<td><label for="searchKeyword">keyword</label></td>
+				<td><input type="text" name="searchKeyword" value="" id="searchKeyword"></td>
+			</tr>
+		</table>
+		
+		<div>
+			<button id="searchBtn">SEARCH</button>
+		</div>
 	</div>
 </body>
 </html>
