@@ -57,4 +57,9 @@ public class HomeController {
 	public String memberHome() {
 		return "memberHome";
 	}
+	
+	@RequestMapping(value="/itemHome", method=RequestMethod.GET)
+	public String itemHome() {
+		return "itemHome";
+	}
 }

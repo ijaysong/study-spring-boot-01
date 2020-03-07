@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+</head>
+
+<script src="/js/jQuery-2.1.4.min.js"></script>
+
+<script>
+$(document).ready(function() {
+	$("#listBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#readBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#registerBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#deleteBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#modifyBtn").on("click", function() {
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#resetBtn").on("click", function() {
+		$("#itemId").val("");
+		$("#itemName").val("");
+		$("#price").val("");
+		$("#description").val("");
+		
+		$("#preview").empty();
+	});
+});
+</script>
+
+<body>
+	<h1>item Home</h1>
+	
+	<table>
+		<tr>
+			<td><label for="itemId">itemId</label></td>
+			<td><input type="text" name="itemId" value="" id="itemId"></td>
+		</tr>
+		<tr>
+			<td><label for="itemName">itemName</label></td>
+			<td><input type="text" name="itemName" value="" id="itemName"></td>
+		</tr>
+		<tr>
+			<td><label for="price">price</label></td>
+			<td><input type="text" name="price" value="" id="price"></td>
+		</tr>
+		<tr>
+			<td><label for="description">description</label></td>
+			<td><textarea id="description" name="description"></textarea></td>
+		</tr>
+		<tr>
+			<td><label for="inputFile">file</label></td>
+			<td><input type="file" name="picture" id="inputFile"></td>
+		</tr>
+		<tr>
+			<td>preview</td>
+			<td><div id="preview"><img src="items/display?itemId=165" width="210" height="50"></div></td>
+		</tr>
+	</table>
+	
+	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
+		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button>
+		<button id="resetBtn">RESET</button>
+	</div>
+</body>
+</html>
