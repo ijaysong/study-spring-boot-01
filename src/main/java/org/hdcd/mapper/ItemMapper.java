@@ -8,6 +8,7 @@ import org.hdcd.domain.Item;
 @Mapper
 public interface ItemMapper {
 	
+	// 이미지 업로드
 	public void create(Item item) throws Exception;
 	
 	public Item read(int itemId) throws Exception;
@@ -19,4 +20,17 @@ public interface ItemMapper {
 	public List<Item> list() throws Exception;
 	
 	public String getPicture(int itemId) throws Exception;
+	
+	// 여러 개의 이미지 업로드
+	public void createMultiple(Item item) throws Exception;
+	
+	public Item readMultiple(int itemId) throws Exception;
+	
+	public void updateMultiple(Item item) throws Exception;
+	
+	public void deleteMultiple(int itemId) throws Exception;
+	
+	public List<Item> listMultiple() throws Exception;
+	
+	public String getPictureMultiple(int itemId) throws Exception;
 }

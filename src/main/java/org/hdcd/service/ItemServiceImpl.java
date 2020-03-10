@@ -13,6 +13,7 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private ItemMapper mapper;
 	
+	// 이미지 업로드
 	@Override
 	public void regist(Item item) throws Exception {
 		mapper.create(item);
@@ -41,6 +42,37 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public String getPicture(int itemId) throws Exception {
 		return mapper.getPicture(itemId);
+	}
+
+	// 여러개의 이미지 업로드
+	@Override
+	public void registMultiple(Item item) throws Exception {
+		mapper.createMultiple(item);
+	}
+
+	@Override
+	public Item readMultiple(int itemId) throws Exception {
+		return mapper.readMultiple(itemId);
+	}
+
+	@Override
+	public void modifyMultiple(Item item) throws Exception {
+		mapper.updateMultiple(item);
+	}
+
+	@Override
+	public void removeMultiple(int itemId) throws Exception {
+		mapper.deleteMultiple(itemId);
+	}
+
+	@Override
+	public List<Item> listMultiple() throws Exception {
+		return mapper.listMultiple();
+	}
+
+	@Override
+	public String getPictureMultiple(int itemId) throws Exception {
+		return mapper.getPictureMultiple(itemId);
 	}
 
 }

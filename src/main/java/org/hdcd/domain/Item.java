@@ -1,6 +1,7 @@
 package org.hdcd.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,9 @@ public class Item implements Serializable {
 	private int price;
 	private String description;
 	private MultipartFile picture;
+	private List<MultipartFile> pictures;
 	private String pictureUrl;
+	private String pictureUrl2;
 	
 	public int getItemId() {
 		return itemId;
@@ -51,6 +54,16 @@ public class Item implements Serializable {
 	public void setPictureUrl(String pictureUrl) {
 		this.pictureUrl = pictureUrl;
 	}
-	
-	
+	public List<MultipartFile> getPictures() {
+		return pictures;
+	}
+	public void setPictures(List<MultipartFile> pictures) {
+		this.pictures = pictures;
+	}
+	public String getPictureUrl2() {
+		return pictureUrl2;
+	}
+	public void setPictureUrl2(String pictureUrl2) {
+		this.pictureUrl2 = pictureUrl2;
+	}
 }

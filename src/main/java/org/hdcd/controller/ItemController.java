@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,7 @@ public class ItemController {
 	@Value("${upload.path}")
 	private String uploadPath;
 	
+	// 이미지 업로드
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public ResponseEntity<Void> register(@RequestPart("item") String itemString, @RequestPart("file") MultipartFile picture, 
 			UriComponentsBuilder uriBuilder) throws Exception {
@@ -206,5 +208,59 @@ public class ItemController {
 		this.itemService.modify(item);
 		
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	// 여러개의 이미지 업로드
+	@RequestMapping(value="/multiple", method=RequestMethod.POST)
+	public ResponseEntity<String> register(@RequestPart("item") String itemString, @RequestPart("file")MultipartFile picture, 
+			@RequestPart("file2") MultipartFile picture2, UriComponentsBuilder uriBuilder) throws Exception {
+		logger.info("itemString: " + itemString);
+		
+		Item item = new ObjectMapper().readValue(itemString, Item.class);
+		
+		String itemName = item.getItemName();
+		String description = item.getDescription();
+		
+		if(itemName != null) {
+			logger.info("item.getItemName():" + itemName);
+			
+			item.setItemName(itemName);
+		}
+		
+		if(description != null) {
+			logger.info("item.getDescription():" + description);
+			
+			item.setDescription(description);
+		}
+		
+		List<MultipartFile> pictures = new ArrayList<MultipartFile>();
+		pictures.add(picture);
+		pictures.add(picture2);
+		
+		item.setPictures(pictures);
+		
+		for(int i = 0; i < pictures.size(); i++) {
+			MultipartFile file = pictures.get(i);
+			
+			logger.info("originalName:" + file.getOriginalFilename());
+			logger.info("size:" + file.getSize());
+			logger.info("contentType:" + file.getContentType());
+			
+			String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
+			
+			if(i == 0) {
+				item.setPictureUrl(savedName);
+			} else if(i == 1) {
+				item.setPictureUrl2(savedName);
+			}
+		}
+		
+		this.itemService.registMultiple(item);
+		
+		logger.info("register item.getItemId() = " + item.getItemId());
+		
+		URI resourceUri = uriBuilder.path("items/{itemId}").buildAndExpand(item.getItemId()).encode().toUri();
+		
+		return ResponseEntity.created(resourceUri).build();
 	}
 }

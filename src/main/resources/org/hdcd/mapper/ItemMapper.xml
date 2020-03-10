@@ -3,6 +3,7 @@
 
 <mapper namespace="org.hdcd.mapper.ItemMapper">
 
+	<!-- 이미지 업로드 -->
 	<insert id="create" useGeneratedKeys="true" keyProperty="itemId">
 		INSERT INTO dev_db.item
 		(
@@ -73,6 +74,87 @@
 			picture_url
 		FROM
 			dev_db.item
+		WHERE
+			item_id = #{itemId}
+	</select>
+	
+	<!-- 여러 개의 이미지 업로드 -->
+	<insert id="createMultiple" useGeneratedKeys="true" keyProperty="itemId">
+		INSERT INTO dev_db.item2
+		(
+			item_name,
+			price,
+			description,
+			picture_url,
+			picture_url2
+		)
+		VALUES
+		(
+			#{itemName},
+			#{price},
+			#{description},
+			#{pictureUrl},
+			#{pictureUrl2}
+		)
+	</insert>
+	
+	<select id="readMultiple" resultType="Item">
+		SELECT 
+			item_id,
+			item_name,
+			price,
+			description,
+			picture_url,
+			picture_url2
+		FROM
+			dev_db.item2
+		WHERE
+			item_id = #{itemId}
+	</select>
+	
+	<update id="updateMultiple">
+		UPDATE
+			dev_db.item2
+		SET
+			item_name = #{itemName},
+			price = #{price},
+			description = #{description},
+			picture_url = #{pictureUrl},
+			pciture_url = #{pictureUrl2}
+		WHERE
+			item_id = #{itemId}
+	</update>
+	
+	<delete id="deleteMultiple">
+		DELETE FROM
+			dev_db.item2
+		WHERE
+			item_id = #{itemId}
+	</delete>
+	
+	<select id="listMultiple" resultType="Item">
+		<![CDATA[
+		SELECT
+			item_id,
+			item_name,
+			price,
+			description,
+			picture_url,
+			picture_url2
+		FROM
+			dev_db.item2
+		WHERE
+			item_id > 0
+		ORDER BY
+			item_id DESC
+		]]>
+	</select>
+	
+	<select id="getPictureMultiple" resultType="String">
+		SELECT
+			picture_url2
+		FROM
+			dev_db.item2
 		WHERE
 			item_id = #{itemId}
 	</select>
