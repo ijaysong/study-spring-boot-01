@@ -212,7 +212,7 @@ public class ItemController {
 	
 	// 여러개의 이미지 업로드
 	@RequestMapping(value="/multiple", method=RequestMethod.POST)
-	public ResponseEntity<String> register(@RequestPart("item") String itemString, @RequestPart("file")MultipartFile picture, 
+	public ResponseEntity<String> registerMultiple(@RequestPart("item") String itemString, @RequestPart("file")MultipartFile picture, 
 			@RequestPart("file2") MultipartFile picture2, UriComponentsBuilder uriBuilder) throws Exception {
 		logger.info("itemString: " + itemString);
 		
@@ -262,5 +262,13 @@ public class ItemController {
 		URI resourceUri = uriBuilder.path("items/{itemId}").buildAndExpand(item.getItemId()).encode().toUri();
 		
 		return ResponseEntity.created(resourceUri).build();
+	}
+	
+	@RequestMapping(value="/multiple", method=RequestMethod.GET)
+	public ResponseEntity<List<Item>> listMultiple() throws Exception {
+		logger.info("list");
+		List<Item> itemList = this.itemService.listMultiple();
+		
+		return new ResponseEntity<>(itemList, HttpStatus.OK);
 	}
 }
