@@ -32,5 +32,7 @@ public interface ItemMapper {
 	
 	public List<Item> listMultiple() throws Exception;
 	
-	public String getPictureMultiple(int itemId) throws Exception;
+	public String getPictureMultiple1(int itemId) throws Exception;
+	
+	public String getPictureMultiple2(int itemId) throws Exception;
 }

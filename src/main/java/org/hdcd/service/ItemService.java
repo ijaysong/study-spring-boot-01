@@ -21,5 +21,6 @@ public interface ItemService {
 	public void modifyMultiple(Item item) throws Exception;
 	public void removeMultiple(int itemId) throws Exception;
 	public List<Item> listMultiple() throws Exception;
-	public String getPictureMultiple(int itemId) throws Exception;
+	public String getPictureMultiple1(int itemId) throws Exception;
+	public String getPictureMultiple2(int itemId) throws Exception;
 }

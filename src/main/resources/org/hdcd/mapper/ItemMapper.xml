@@ -120,7 +120,7 @@
 			price = #{price},
 			description = #{description},
 			picture_url = #{pictureUrl},
-			pciture_url = #{pictureUrl2}
+			picture_url2 = #{pictureUrl2}
 		WHERE
 			item_id = #{itemId}
 	</update>
@@ -150,7 +150,16 @@
 		]]>
 	</select>
 	
-	<select id="getPictureMultiple" resultType="String">
+	<select id="getPictureMultiple1" resultType="String">
+		SELECT
+			picture_url
+		FROM
+			dev_db.item2
+		WHERE
+			item_id = #{itemId}
+	</select>
+	
+	<select id="getPictureMultiple2" resultType="String">
 		SELECT
 			picture_url2
 		FROM

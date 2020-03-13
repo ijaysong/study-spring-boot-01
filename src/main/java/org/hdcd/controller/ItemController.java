@@ -271,4 +271,138 @@ public class ItemController {
 		
 		return new ResponseEntity<>(itemList, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/multiple/{itemId}", method=RequestMethod.GET)
+	public ResponseEntity<Item> readMultiple(@PathVariable("itemId") int itemId) throws Exception {
+		logger.info("read");
+		
+		Item item = this.itemService.readMultiple(itemId);
+		
+		return new ResponseEntity<>(item, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/multiple/{itemId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> removeMultiple(@PathVariable("itemId") int itemId) throws Exception {
+		logger.info("remove");
+		
+		this.itemService.removeMultiple(itemId);
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping(value="/multiple", method=RequestMethod.PUT)
+	public ResponseEntity<Void> modifyMutiple(@RequestPart("item") String itemString
+			, @RequestPart("file") MultipartFile picture, @RequestPart("file2") MultipartFile picture2) throws Exception {
+		logger.info("itemString: " + itemString);
+		
+		Item item = new ObjectMapper().readValue(itemString, Item.class);
+		
+		String itemName = item.getItemName();
+		String description = item.getDescription();
+		
+		if (itemName != null) {
+			logger.info("item.getItemName(): " + itemName);
+			
+			item.setItemName(itemName);
+		}
+		
+		if (description != null) {
+			logger.info("item.getDescription(): " + description);
+			
+			item.setDescription(description);
+		}
+		
+		List<MultipartFile> pictures = new ArrayList<MultipartFile>();
+		pictures.add(picture);
+		pictures.add(picture2);
+
+		item.setPictures(pictures);
+		
+		for(int i = 0; i < pictures.size(); i++) {
+			MultipartFile file = pictures.get(i);
+			
+			if(file != null && file.getSize() > 0) {
+				logger.info("originalName: " + file.getOriginalFilename());
+				logger.info("size: " + file.getSize());
+				logger.info("contentType: " + file.getContentType());
+				
+				String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
+				
+				if(i == 0) {
+					item.setPictureUrl(savedName);
+				} else if(i == 1) {
+					item.setPictureUrl2(savedName);
+				}
+			}
+		}
+		this.itemService.modifyMultiple(item);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping("/display1")
+	public ResponseEntity<byte[]> displayFile1(int itemId) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		
+		String fileName = itemService.getPictureMultiple1(itemId);
+		
+		logger.info("FILE NAME: " + fileName);
+		
+		try {
+			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+			MediaType mType = getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(uploadPath + File.separator + fileName);
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			in.close();
+		}
+		return entity;
+	}
+	
+	@RequestMapping("/display2")
+	public ResponseEntity<byte[]> displayFile2(int itemId) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		
+		String fileName = itemService.getPictureMultiple2(itemId);
+		
+		logger.info("FILE NAME: " + fileName);
+		
+		try {
+			String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
+			
+			MediaType mType = getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(uploadPath + File.separator + fileName);
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			in.close();
+		}
+		return entity;
+	}
+	
 }
