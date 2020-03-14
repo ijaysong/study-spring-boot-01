@@ -8,6 +8,7 @@
 
 <script>
 $(document).ready(function() {
+	
 	// 이미지 업로드
 	$("#listBtn").on("click", function() {
 		$.get("/items", function(data) {
@@ -333,6 +334,68 @@ $(document).ready(function() {
 		$("#preview").empty();
 		$("#preview2").empty();
 	});
+	
+	// 비동기식 이미지 업로드
+	function getOriginalName(fileName) {
+		if(checkImageType(fileName)) {
+			return;
+		}
+		
+		var idx = fileName.indexOf("_") + 1;
+		return fileName.substr(idx);
+	}
+	
+	function getThumbnailName(fileName) {
+		var front = fileName.substr(0,12);
+		var end = fileName.substr(12);
+		
+		console.log("front: " + front);
+		console.log("end: " + end);
+		
+		return fornt + "s_" + end;
+	}
+	
+	function checkImageType(fileName) {
+		var pattern = /jpg|gif|png|jpeg/i;
+		
+		return fileName.match(pattern);
+	}
+	
+	$(".uploadedList").on("click", "span", function(event) {
+		$(this).parent("div").remove();
+	});
+	
+	$("#inputFile").on("chage", function(event){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#listBtn3").on("click", function(){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#readBtn3").on("click", function(){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#registerBtn3").on("click", function(){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#deleteBtn3").on("click", function(){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#modifyBtn3").on("click", function(){
+		//*** 이벤트 처리 로직 구현 ***//
+	});
+	
+	$("#resetBtn3").on("click", function(){
+		$("#itemId").val("");
+		$("#itemName").val("");
+		$("#price").val("");
+		$("#description").val("");
+		$(".uploadedList").empty();
+	});
 });
 </script>
 
@@ -358,7 +421,7 @@ $(document).ready(function() {
 		</tr>
 		<tr>
 			<td><label for="inputFile">file1</label></td>
-			<td><input type="file" name="picture" id="inputFile"></td>
+			<td><input type="file" name="picture" id="inputFile"><div class="uploadedList"></div></td>
 		</tr>
 		<tr>
 			<td>preview</td>
@@ -389,6 +452,13 @@ $(document).ready(function() {
 		<button id="deleteBtn2">DELETE</button>
 		<button id="modifyBtn2">MODIFY</button>
 		<button id="resetBtn2">RESET</button>
+		<br>비동기식 이미지업로드<br>
+		<button id="listBtn3">LIST</button>
+		<button id="readBtn3">READ</button>
+		<button id="registerBtn3">REGISTER</button>
+		<button id="deleteBtn3">DELETE</button>
+		<button id="modifyBtn3">MODIFY</button>
+		<button id="resetBtn3">RESET</button>
 	</div>
 </body>
 </html>
