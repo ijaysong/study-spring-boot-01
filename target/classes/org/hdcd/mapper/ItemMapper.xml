@@ -167,4 +167,116 @@
 		WHERE
 			item_id = #{itemId}
 	</select>
+	
+	<!-- 비동기 방식 이미지 업로드 -->
+	<insert id="createAsync" useGeneratedKeys="true" keyProperty="itemId">
+		INSERT INTO dev_db.item3
+		(
+			item_name,
+			price,
+			description
+		)
+		VALUES
+		(
+			#{itemName},
+			#{price},
+			#{description}
+		)
+	</insert>
+	
+	<select id="readAsync" resultType="Item">
+		SELECT
+			item_id,
+			item_name,
+			price,
+			description
+		FROM
+			dev_db.item3
+		WHERE
+			item_id = #{itemId}
+	</select>
+	
+	<update id="updateAsync">
+		UPDATE dev_db.item3
+		SET
+			item_name = #{itemName},
+			price = #{price},
+			description = #{description}
+		WHERE
+			item_id = #{itemId}
+	</update>
+	
+	<delete id="deleteAsync">
+		DELETE FROM dev_db.item3
+		WHERE
+			item_id = #{itemId}
+	</delete>
+	
+	<select id="listAsync" resultType="Item">
+		<![CDATA[
+		SELECT
+			item_id,
+			item_name,
+			price,
+			description
+		FROM
+			dev_db.item3
+		WHERE
+			item_id > 0
+		ORDER BY
+			item_id DESC
+		]]>
+	</select>
+	
+	<select id="getPictureAsync" resultType="String">
+		SELECT
+			picture_url
+		FROM
+			dev_db.item3
+		WHERE
+			item_id = #{itemId}
+	</select>
+	
+	<insert id="addAttachAsync">
+		INSERT INTO dev_db.item_attach
+		(
+			fullname,
+			item_id
+		)
+		VALUES
+		(
+			#{fullName},
+			LAST_INSERT_ID()
+		)
+	</insert>
+	
+	<select id="getAttachAsync" resultType="string">
+		SELECT
+			fullname
+		FROM
+			dev_db.item_attach
+		WHERE
+			item_id = #{itemId}
+		ORDER BY
+			regdate
+	</select>
+	
+	<delete id="deleteAttachAsync">
+		DELETE FROM dev_db.item_attach
+		WHERE
+			item_id = #{itemId}
+	</delete>
+	
+	<insert id="replaceAttachAsync">
+		INSERT INTO dev_db.item_attach
+		(
+			fullname,
+			item_id
+		)
+		VALUES
+		(
+			#{fullName},
+			#{itemId}
+		)
+	</insert>
 </mapper>

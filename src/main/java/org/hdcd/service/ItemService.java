@@ -23,4 +23,13 @@ public interface ItemService {
 	public List<Item> listMultiple() throws Exception;
 	public String getPictureMultiple1(int itemId) throws Exception;
 	public String getPictureMultiple2(int itemId) throws Exception;
+	
+	// 비동기식 이미지 업로드
+	public void registAsync(Item item) throws Exception;
+	public Item readAsync(int itemId) throws Exception;
+	public void modifyAsync(Item item) throws Exception;
+	public void removeAsync(int itemId) throws Exception;
+	public List<Item> listAsync() throws Exception;
+	public String getPictureAsync(int itemId) throws Exception;
+	public List<String> getAttachAsync(int itemId) throws Exception;
 }

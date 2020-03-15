@@ -32,8 +32,8 @@ public interface ItemMapper {
 	public void updateAsync(Item item) throws Exception;
 	public void deleteAsync(int itemId) throws Exception;
 	public List<Item> listAsync() throws Exception;
-	public String getPictureAsync() throws Exception;
-	public void addAttachAsync() throws Exception;
+	public String getPictureAsync(int itemId) throws Exception;
+	public void addAttachAsync(String fullName) throws Exception;
 	public List<String> getAttachAsync(int itemId) throws Exception;
 	public void deleteAttachAsync(int itemId) throws Exception;
 	public void replaceAttachAsync(@Param("fullName") String fullName, @Param("itemId") int itemId) throws Exception;

@@ -6,6 +6,7 @@ import org.hdcd.domain.Item;
 import org.hdcd.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -78,6 +79,68 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public String getPictureMultiple2(int itemId) throws Exception {
 		return mapper.getPictureMultiple2(itemId);
+	}
+
+	// 비동기식 이미지 업로드
+	@Transactional
+	@Override
+	public void registAsync(Item item) throws Exception {
+		mapper.create(item);
+		
+		String[] files = item.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		
+		for(String fileName : files) {
+			mapper.addAttachAsync(fileName);
+		}
+	}
+
+	@Override
+	public Item readAsync(int itemId) throws Exception {
+		return mapper.readAsync(itemId);
+	}
+
+	@Transactional
+	@Override
+	public void modifyAsync(Item item) throws Exception {
+		mapper.updateAsync(item);
+		int itemId = item.getItemId();
+		
+		mapper.deleteAttachAsync(itemId);
+		String[] files = item.getFiles();
+		
+		if(files == null) {
+			return;
+		}
+		
+		for(String fileName : files) { 
+			mapper.replaceAttachAsync(fileName, itemId);
+		}
+	}
+
+	@Transactional
+	@Override
+	public void removeAsync(int itemId) throws Exception {
+		mapper.deleteAttachAsync(itemId);
+		mapper.deleteAsync(itemId);
+	}
+
+	@Override
+	public List<Item> listAsync() throws Exception {
+		return mapper.listAsync();
+	}
+
+	@Override
+	public String getPictureAsync(int itemId) throws Exception {
+		return mapper.getPictureAsync(itemId);
+	}
+
+	@Override
+	public List<String> getAttachAsync(int itemId) throws Exception {
+		return mapper.getAttachAsync(itemId);
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.hdcd.domain.Item;
 import org.hdcd.service.ItemService;
+import org.hdcd.util.UploadFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -404,5 +405,16 @@ public class ItemController {
 		}
 		return entity;
 	}
+	
+	// 비동기식 이미지 업로드
+	@RequestMapping(value="/upload", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public ResponseEntity<String> upload(MultipartFile file) throws Exception {
+		logger.info("originalName: " + file.getOriginalFilename());
+		
+		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+		
+		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
+	}
+	
 	
 }
