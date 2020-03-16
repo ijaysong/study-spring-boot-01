@@ -21,7 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -117,6 +119,10 @@ public class ItemController {
 			
 			if(mType != null) {
 				headers.setContentType(mType);
+			} else {
+				fileName = fileName.substring(fileName.indexOf("_") + 1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment;filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
 			}
 			
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
@@ -407,6 +413,63 @@ public class ItemController {
 	}
 	
 	// 비동기식 이미지 업로드
+	@RequestMapping(value="/async", method=RequestMethod.GET)
+	public ResponseEntity<List<Item>> listAsync() throws Exception {
+		logger.info("list");
+		
+		List<Item> itemList = this.itemService.listAsync();
+		
+		return new ResponseEntity<>(itemList, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/async/{itemId}", method=RequestMethod.GET)
+	public ResponseEntity<Item> readAsync(@PathVariable("itemId") int itemId) throws Exception {
+		logger.info("read");
+		
+		Item item = this.itemService.readAsync(itemId);
+		
+		return new ResponseEntity<>(item, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/async/{itemId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> removeAsync(@PathVariable("itemId") int itemId) throws Exception {
+		logger.info("remove");
+		
+		this.itemService.removeAsync(itemId);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping(value="/async", method=RequestMethod.POST)
+	public ResponseEntity<Void> registerAsync(@Validated @RequestBody Item item, UriComponentsBuilder uriBuilder) throws Exception {
+		String[] files = item.getFiles();
+		
+		for(int i = 0; i < files.length; i++) {
+			logger.info("files[i] = " + files[i]);
+		}
+		
+		this.itemService.registAsync(item);
+		
+		logger.info("register item.getItemId() = " + item.getItemId());
+		
+		URI resourceUri = uriBuilder.path("items/{itemId}").buildAndExpand(item.getItemId()).encode().toUri();
+		
+		return ResponseEntity.created(resourceUri).build();
+	}
+	
+	@RequestMapping(value="/async", method=RequestMethod.PUT)
+	public ResponseEntity<Void> modifyAsync(@Validated @RequestBody Item item) throws Exception {
+		String[] files = item.getFiles();
+		
+		for(int i = 0; i < files.length; i++) {
+			logger.info("files[i] = " + files[i]);
+		}
+		
+		this.itemService.modifyAsync(item);
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	
 	@RequestMapping(value="/upload", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> upload(MultipartFile file) throws Exception {
 		logger.info("originalName: " + file.getOriginalFilename());
@@ -416,5 +479,11 @@ public class ItemController {
 		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
 	}
 	
+	@RequestMapping("/attach/{itemId}")
+	public List<String> attach(@PathVariable("itemId") int itemId) throws Exception {
+		logger.info("attach itemId: " + itemId);
+		
+		return itemService.getAttachAsync(itemId);
+	}
 	
 }

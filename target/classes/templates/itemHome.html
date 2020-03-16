@@ -352,7 +352,7 @@ $(document).ready(function() {
 		console.log("front: " + front);
 		console.log("end: " + end);
 		
-		return fornt + "s_" + end;
+		return front + "s_" + end;
 	}
 	
 	function checkImageType(fileName) {
@@ -365,7 +365,7 @@ $(document).ready(function() {
 		$(this).parent("div").remove();
 	});
 	
-	$("#inputFile").on("chage", function(event){
+	$("#inputFile").on("change", function(event){
 		console.log("change");
 		
 		var files = event.target.files;
@@ -403,23 +403,173 @@ $(document).ready(function() {
 	});
 	
 	$("#listBtn3").on("click", function(){
-		//*** 이벤트 처리 로직 구현 ***//
+		$.get("/items/async", function(data) {
+			console.log(data);
+			
+			alert(JSON.stringify(data));
+		});
 	});
 	
 	$("#readBtn3").on("click", function(){
-		//*** 이벤트 처리 로직 구현 ***//
+		var itemId = $("#itemId");
+		var itemIdVal = itemId.val();
+		
+		console.log(itemIdVal);
+		
+		$.ajax({
+			type : "GET",
+			url : "/items/async/" + itemIdVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				
+				alert(JSON.stringify(data));
+				
+				console.log("data: " + data.itemId);
+				
+				$("#itemName").val(data.itemName);
+				$("#price").val(data.price);
+				$("#description").val(data.description);
+				
+				$(".uploadedList").empty();
+				
+				$.getJSON("/items/attach/" + data.itemId, function(list) {
+					$(list).each(function() {
+						console.log("data: " + this);
+						
+						var data = this;
+						
+						var str = "";
+						
+						if(checkImageType(data)) {
+							str = "<div><a href='/items/display?fileName=" + data + "'>"+
+									"<img src='/items/display?fileName=" + getThumbnailName(data) + "'/>" + 
+									"</a><span>X</span></div>";
+						} else {
+							str = "<div><a href='/items/display?fileName=" + data + "'>"+ getOrinalName(data) + 
+									"</a><span>X</span></div>";
+						}
+						
+						$(".uploadedList").append(str);
+					});
+				});
+			}, 
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	$("#registerBtn3").on("click", function(){
-		//*** 이벤트 처리 로직 구현 ***//
+		console.log("change");
+		
+		var itemId = $("#itemId");
+		var itemName = $("#itemName");
+		var price = $("#price");
+		var description = $("#description");
+		
+		var itemIdVal = itemId.val();
+		var itemNameVal = itemName.val();
+		var priceVal = price.val();
+		var descriptionVal = description.val();
+		
+		var filenames = [];
+		
+		$(".uploadedList a").each(function(index) {
+			var value = $(this).attr("href");
+			value = value.substr(24);
+			
+			filenames[index] = value;
+		});
+		
+		console.log("filenames = " + filenames);
+		
+		var itemObject = {
+			itemId : itemIdVal,
+			itemName : itemNameVal,
+			price : priceVal,
+			description : descriptionVal,
+			files : filenames
+		};
+		
+		alert("JSON.stringify(itemObject) = " + JSON.stringify(itemObject));
+		
+		$.ajax({
+			type : "POST",
+			url : "/items/async",
+			data : JSON.stringify(itemObject),
+			contentType : "application/json; charset=UTF-8",
+			success : function() {
+				alert("Created");
+			},
+			error : function(xhr, textStatus, error) {
+				alert("code:" + xhr.status + "\n" + "message:" + xhr.responseText + "\n" + "error:" + error);
+			}
+		});
 	});
 	
 	$("#deleteBtn3").on("click", function(){
-		//*** 이벤트 처리 로직 구현 ***//
+		var itemId = $("#itemId");
+		var itemIdVal = itemId.val();
+		
+		console.log(itemIdVal);
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/items/async/" + itemIdVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Deleted");
+			}, 
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	$("#modifyBtn3").on("click", function(){
-		//*** 이벤트 처리 로직 구현 ***//
+		console.log("modify");
+		
+		var itemId = $("#itemId");
+		var itemName = $("#itemName");
+		var price = $("#price");
+		var description = $("#description");
+		
+		var itemIdVal = itemId.val();
+		var itemNameVal = itemName.val();
+		var priceVal = price.val();
+		var descriptionVal = description.val();
+		
+		var filenames = [];
+		$(".uploadedList a").each(function(index) {
+			var value = $(this).attr("href");
+			value = value.substr(24);
+			
+			filenames[index] = value;
+		});
+		
+		console.log("filenames = " + filenames);
+		
+		var itemObject = {
+			itemId : itemIdVal,
+			itemName : itemNameVal,
+			price : priceVal,
+			description : descriptionVal,
+			files : filenames
+		}
+		
+		$.ajax({
+			type : "PUT",
+			url : "/items/async",
+			data : JSON.stringify(itemObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Modified");
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
 	});
 	
 	$("#resetBtn3").on("click", function(){
