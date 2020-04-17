@@ -98,6 +98,11 @@
         	<artifactId>imgscalr-lib</artifactId>
         	<version>4.2</version>
         </dependency>
+        <!-- AOP를 위한 라이브러리 의존 관계 정의 -->
+        <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
