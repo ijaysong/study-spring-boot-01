@@ -7,6 +7,7 @@
 <script src="/js/jQuery-2.1.4.min.js"></script>
 <script>
 $(document).ready(function() {
+	<!-- 등록 -->
 	$("#registerBtn").on("click", function() {
 		var title = $("#title");
 		var content = $("#content");
@@ -35,6 +36,98 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	<!-- 요청 -->
+	$("#listBtn").on("click", function() {
+		$.get("/aop", function(data) {
+			console.log(data);
+			alert(JSON.stringify(data));
+		});
+	});
+	
+	<!-- 상세조회 -->
+	$("#readBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		$.ajax({
+			type : "GET",
+			url : "/aop/" + boardNoVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log(data);
+				
+				alert(JSON.stringify(data));
+				
+				$("#title").val(data.title);
+				$("#content").val(data.content);
+				$("#writer").val(data.writer);
+			},
+			error : function(xhr, status, error) {
+				alert("code:" + xhr.status + "\n" + "message:" + xhr.responseText + "\n" + "error:" + error);
+			}
+		});
+	});
+	
+	<!-- 수정 -->
+	$("#modifyBtn").on("click", function() {
+		var boardNo = $("#boardNo");
+		var title = $("#title");
+		var content = $("#content");
+		var writer = $("#writer");
+		
+		var boardNoVal = boardNo.val();
+		var titleVal = title.val();
+		var contentVal = content.val();
+		var writerVal = writer.val();
+		
+		var boardObject = {
+			boardNo : boardNoVal,
+			title : titleVal,
+			content : contentVal,
+			writer : writerVal
+		};
+		
+		$.ajax({
+			type : "PUT",
+			url : "/aop/" + boardNoVal,
+			data : JSON.stringify(boardObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Modified");
+			},
+			error : function(xhr, status, error) {
+				alert("code:" + xhr.status + "\n" + "message:" + xhr.responseText + "\n" + "error:" + error);
+			}
+		});
+	});
+	
+	<!-- 삭제 -->
+	$("#deleteBtn").on("click", function(){
+		var boardNo = $("#boardNo");
+		var boardNoVal = boardNo.val();
+		
+		$.ajax({
+			type : "DELETE",
+			url : "/aop/" + boardNoVal,
+			contentType : "application/json;charset=UTF-8",
+			success : function() {
+				alert("Deleted");
+			},
+			error : function(xhr, status, error) {
+				alert("code:" + xhr.status + "\n" + "message:" + xhr.responseText + "\n" + "error:" + error);
+			}
+		});
+	});
+	
+	<!-- 리셋 -->
+	$("#resetBtn").on("click", function() {
+		$("#boardNo").val("");
+		$("#title").val("");
+		$("#content").val("");
+		$("#writer").val("");
+	});
+	
 });
 </script>
 

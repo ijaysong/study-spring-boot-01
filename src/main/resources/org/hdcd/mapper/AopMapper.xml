@@ -18,4 +18,50 @@
 		)
 	</insert>
 	
+	<select id="list" resultType="Board">
+	<![CDATA[
+		SELECT
+		   board_no
+		   , title
+		   , content
+		   , writer
+		   , reg_date
+		FROM
+			dev_db.Board
+		WHERE
+			board_no > 0
+		ORDER BY
+			board_no DESC
+			, reg_date DESC
+	]]>
+	</select>
+	
+	<select id="read" resultType="Board">
+	SELECT
+		board_no
+		, title
+		, content
+		, writer
+		, reg_date
+	FROM
+		dev_db.Board
+	WHERE
+		board_no = #{boardNo}
+	</select>
+	
+	<update id="modify">
+	UPDATE dev_db.Board
+	SET
+		title = #{title}
+		, content = #{content}
+		, writer = #{writer}
+	WHERE
+		board_no = #{boardNo}
+	</update>
+	
+	<delete id="remove">
+	DELETE FROM dev_db.Board
+	WHERE
+	   board_no = #{boardNo}
+	</delete>
 </mapper>
