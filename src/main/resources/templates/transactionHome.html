@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+
+<script src="/js/jQuery-2.1.4.min.js"></script>
+<script>
+$(document).ready(function() {
+	
+	
+});
+</script>
+
+<body>
+	<h1>Transaction Home</h1>
+	
+		<table>
+		<tr>
+			<td><label for="userNo">userNo</label></td>
+			<td><input type="text" name="userNo" value="" id="userNo"></td>
+		</tr>
+		<tr>
+			<td><label for="userId">userId</label></td>
+			<td><input type="text" name="userId" value="" id="userId"></td>
+		</tr>
+		<tr>
+			<td><label for="userPw">userPw</label></td>
+			<td><input type="text" name="userPw" value="" id="userPw"></td>
+		</tr>
+		<tr>
+			<td><label for="userName">userName</label></td>
+			<td><input type="text" name="userName" value="" id="userName"></td>
+		</tr>
+		
+		<tr>
+			<td>auth - 1</td>
+			<td>
+				<select id="authList0.auth" name="authList[0].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>auth - 2</td>
+			<td>
+				<select id="authList1.auth" name="authList[1].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>auth - 3</td>
+			<td>
+				<select id="authList2.auth" name="authList[2].auth">
+					<option value="" selected="selected">=== 선택해 주세요 ===</option>
+					<option value="ROLE_USER">사용자</option>
+					<option value="ROLE_MEMBER">회원</option>
+					<option value="ROLE_ADMIN">관리자</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	
+	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
+		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button>
+		<button id="resetBtn">RESET</button>
+	</div>
+</body>
+</html>

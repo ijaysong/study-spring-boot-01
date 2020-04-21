@@ -67,4 +67,9 @@ public class HomeController {
 	public String aopHome() {
 		return "aopHome";
 	}
+	
+	@RequestMapping(value="/transactionHome", method=RequestMethod.GET)
+	public String transactionHome() {
+		return "transactionHome";
+	}
 }
