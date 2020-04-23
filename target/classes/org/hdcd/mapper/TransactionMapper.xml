@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.hdcd.mapper.TransactionMapper">
+	
+	<insert id="create" useGeneratedKeys="true" keyProperty="userNo">
+		INSERT INTO dev_db.member
+		(
+			user_id,
+			user_pw,
+			user_name
+		)
+		VALUES
+		(
+			#{userId},
+			#{userPw},
+			#{userName}
+		)
+	</insert>
+	
+	<select id="read" resultType="Member">
+		SELECT
+			mem.user_no
+			, mem.user_id
+			, mem.user_pw
+			, mem.user_name
+			, mem.reg_date
+			, mem.upd_date
+			, auth.auth
+		FROM
+			dev_db.member mem
+		LEFT OUTER JOIN
+			dev_db.member_auth auth
+		ON
+			mem.user_no = auth.user_no
+		WHERE
+			mem.user_no = #{userNo}
+	</select>
+	
+	<update id="update">
+		UPDATE
+			dev_db.member
+		SET
+			user_name = #{userName}
+		WHERE
+			user_no = #{userNo}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM dev_db.member
+		WHERE
+			user_no = #{userNo}
+	</delete>
+	
+	<select id="list" resultType="Member">
+		SELECT
+			user_no
+			, user_id
+			, user_pw
+			, user_name
+			, reg_date
+		FROM
+			dev_db.member
+		ORDER BY
+			reg_date DESC
+	</select>
+	
+	<insert id="createAuth">
+		INSERT INTO dev_db.member_auth
+		(
+			user_no
+			, auth
+		)
+		VALUES
+		(
+			#{userNo}
+			, #{auth}
+		)
+	</insert>
+	
+	<delete id="deleteAuth">
+		DELETE FROM dev_db.member_auth
+		WHERE
+			user_no = #{userNo}
+	</delete>
+</mapper>
