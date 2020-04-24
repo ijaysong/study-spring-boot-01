@@ -72,4 +72,9 @@ public class HomeController {
 	public String transactionHome() {
 		return "transactionHome";
 	}
+	
+	@RequestMapping(value="/errorHandlingHome", method=RequestMethod.GET)
+	public String errorHandlingHome() {
+		return "errorHandlingHome";
+	}
 }

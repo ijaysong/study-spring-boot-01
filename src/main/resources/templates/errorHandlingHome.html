@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+
+<script src="/js/jQuery-2.1.4.min.js"></script>
+<script>
+$(document).ready(function() {
+	
+	<!--  소스 작성 -->
+	
+	$("#resetBtn").on("click", function() {
+		$("#boardNo").val("");
+		$("#title").val("");
+		$("#content").val("");
+		$("#writer").val("");
+	});
+	
+});
+</script>
+
+<body>
+	<h1>Error Handling Home</h1>
+	
+	<form>
+		boardNo: <input type="text" name="boardNo" value="" id="boardNo"><br>
+		title: <input type="text" name="title" value="" id="title"><br>
+		content: <input type="text" name="content" value="" id="content"><br>
+		writer: <input type="text" name="writer" value="" id="writer"><br>
+	</form>
+	
+	<div>
+		<button id="listBtn">LIST</button>
+		<button id="readBtn">READ</button>
+		<button id="registerBtn">REGISTER</button>
+		<button id="deleteBtn">DELETE</button>
+		<button id="modifyBtn">MODIFY</button>
+		<button id="resetBtn">RESET</button><br>
+	</div>
+</body>
+</html>
