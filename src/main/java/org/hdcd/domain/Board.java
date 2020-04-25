@@ -3,12 +3,16 @@ package org.hdcd.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
 
 public class Board implements Serializable{
 	
 	private static final long serialVersionUID = 7211418002481684234L;
 	
 	private int boardNo;
+	// 입력값의 검사규칙을 지정한다.
+	@NotBlank
 	private String title;
 	private String content;
 	private String writer;
