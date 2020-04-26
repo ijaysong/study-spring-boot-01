@@ -34,17 +34,38 @@ public class ErrorHandlingController {
 	public ResponseEntity<Board> read(@PathVariable("boardNo") int boardNo) throws Exception {
 		logger.info("read");
 		
-		// 게시판의 글이 존재하지 않으면, 사용자가 정의한 예외를 발생시킨다.
-		Board board = service.read(boardNo);
+		ResponseEntity<Board> entity = null;
 		
-		return new ResponseEntity<>(board, HttpStatus.OK);
+		// try-catch문으로 예외를 처리한다
+		try {
+			// 게시판의 글이 존재하지 않으면, 사용자가 정의한 예외를 발생시킨다.
+			Board board = service.read(boardNo);
+			entity = new ResponseEntity<>(board, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public ResponseEntity<List<Board>> list() throws Exception {
 		logger.info("list");
 		
-		return new ResponseEntity<List<Board>>(service.list(), HttpStatus.OK);
+		ResponseEntity<List<Board>> entity = null;
+		
+		// try-catch문으로 예외를 처리한다
+		try {
+			entity = new ResponseEntity<>(service.list(), HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	
@@ -52,30 +73,61 @@ public class ErrorHandlingController {
 	public ResponseEntity<String> register(@Validated @RequestBody Board board) throws Exception {
 		logger.info("register");
 		
-		// 제목에 빈 값을 입력하여 유효값 검증 예외 발생
-		service.register(board);
+		ResponseEntity<String> entity = null;
 		
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		// try-catch문으로 예외를 처리한다
+		try {
+			// 제목에 빈 값을 입력하여 유효값 검증 예외 발생
+			service.register(board);
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	@RequestMapping(value="/{boardNo}", method=RequestMethod.DELETE)
 	public ResponseEntity<String> remove(@PathVariable("boardNo") int boardNo) throws Exception {
 		logger.info("remove");
 		
-		// Mybatis Mapper에서 에러 발생
-		service.remove(boardNo);
+		ResponseEntity<String> entity = null;
 		
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		// try-catch문으로 예외를 처리한다
+		try {
+			// Mybatis Mapper에서 에러 발생
+			service.remove(boardNo);
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	@RequestMapping(value="/{boardNo}", method=RequestMethod.PUT)
 	public ResponseEntity<String> modify(@PathVariable("boardNo") int boardNo, @Validated @RequestBody Board board) throws Exception {
 		logger.info("modify");
 		
-		board.setBoardNo(boardNo);
-		service.modify(board);
+		ResponseEntity<String> entity = null;
 		
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		// try-catch문으로 예외를 처리한다
+		try {
+			board.setBoardNo(boardNo);
+			service.modify(board);
+			
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 
 }
