@@ -9,7 +9,7 @@
 $(document).ready(function() {
 	
 	$("#listBtn").on("click", function() {
-		$.get("/boards", function(data) {
+		$.get("/errorHandling", function(data) {
 			console.log(data);
 			alert(JSON.stringify(data));
 		});
@@ -23,7 +23,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			type : "GET",
-			url : "/erorHandling/" + boardNoVal,
+			url : "/errorHandling/" + boardNoVal,
 			contentType : "application/json;charset=UTF-8",
 			success : function(data) {
 				console.log("data: " + data);

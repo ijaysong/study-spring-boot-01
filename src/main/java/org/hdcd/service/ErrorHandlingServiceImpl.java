@@ -23,11 +23,12 @@ public class ErrorHandlingServiceImpl implements ErrorHandlingService {
 	public Board read(int boardNo) throws Exception {
 		Board board = mapper.read(boardNo);
 		
-		// 게시판의 글이 존재하지 않으면, 사용가자 정의한 예외를 발생시킨다.
+		// 게시판의 글이 존재하지 않으면, 사용자가 정의한 예외를 발생시킨다.
 		if(board == null) {
 			throw new BoardRecordNotFoundException("Not Found boardNo = " + boardNo); 
 		}
-		return null;
+		
+		return board;
 	}
 
 	@Override
