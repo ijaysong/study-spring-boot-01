@@ -27,4 +27,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		return super.handleExceptionInternal(ex, restError, null, HttpStatus.NOT_FOUND, request);
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<Object> handleSystemException(Exception ex, WebRequest request) {
+		logger.info("handleSystemException");
+		
+		ApiErrorInfo restError = new ApiErrorInfo();
+		restError.setMessage(ex.toString());
+		
+		return super.handleExceptionInternal(ex, restError, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
+	}
 }
