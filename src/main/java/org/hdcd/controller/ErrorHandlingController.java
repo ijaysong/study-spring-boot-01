@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,8 +71,18 @@ public class ErrorHandlingController {
 	
 	
 	@RequestMapping(value="", method=RequestMethod.POST)
-	public ResponseEntity<String> register(@Validated @RequestBody Board board) throws Exception {
+	// @Validated 애너테이션을 사용하면 Bean Validation의 유효성 검증 매커니즘을 이용할 수 있다
+	// BindingResult 타입의 매개변수를 지정하면 BindingResult 매개변수가 입력값 검증 예외를 처리한다
+	public ResponseEntity<String> register(@Validated @RequestBody Board board, BindingResult result) throws Exception {
 		logger.info("register");
+		logger.info("result.hasError() = " + result.hasErrors());
+		
+		// 입력값 검증 예외가 발생하면 예외메시지를 응답한다
+		if(result.hasErrors()) {
+			return new ResponseEntity<String>(result.toString(), HttpStatus.BAD_REQUEST);
+		}
+		
+		logger.info("board.getTitle() = " + board.getTitle());
 		
 		ResponseEntity<String> entity = null;
 		

@@ -1,11 +1,17 @@
 package org.hdcd.common.exception;
 
+import java.util.List;
+
 import org.hdcd.exception.BoardRecordNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -27,7 +33,52 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, 
+			HttpStatus status, WebRequest request) {
+		logger.info("handleMethodArgumentNotValid");
+		
+		ApiErrorInfo apiErrorInfo = new ApiErrorInfo();
+		apiErrorInfo.setMessage(ex.toString());
+		
+		List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
+		
+		for(ObjectError globalError : globalErrors) {
+			apiErrorInfo.addDetailInfo(globalError.getObjectName(), globalError.getDefaultMessage());
+		}
+		
+		List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+		
+		for(FieldError fieldError : fieldErrors) {
+			apiErrorInfo.addDetailInfo(fieldError.getField(), fieldError.getDefaultMessage());
+		}
+		
+		return super.handleExceptionInternal(ex, apiErrorInfo, headers, status, request);
+	}
 
+	@Override
+	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		logger.info("handleBindException");
+		
+		ApiErrorInfo apiErrorInfo = new ApiErrorInfo();
+		apiErrorInfo.setMessage(ex.toString());
+		
+		List<ObjectError> globalErrors = ex.getBindingResult().getGlobalErrors();
+		
+		for(ObjectError globalError : globalErrors) {
+			apiErrorInfo.addDetailInfo(globalError.getObjectName(), globalError.getDefaultMessage());
+		}
+		
+		List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+		
+		for(FieldError fieldError : fieldErrors) {
+			apiErrorInfo.addDetailInfo(fieldError.getField(), fieldError.getDefaultMessage());
+		}
+		
+		return super.handleExceptionInternal(ex, apiErrorInfo, headers, status, request);
+	}
+	
 	// 사용자 정의 예외
 	// @ExceptioinHandler 애너테이션은 괄호 안에 설정한 예외 타입을 해당 메서드가 처리한다는 것을 의미한다.
 	// 메서드 매개변수에 처리해야 하는 예외 클래스를 선언한다
