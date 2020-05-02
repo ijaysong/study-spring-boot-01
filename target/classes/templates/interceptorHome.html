@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+
+<script src="/js/jQuery-2.1.4.min.js"></script>
+<script>
+$(document).ready(function() {
+	$("#registerBtn").on("click", function() {
+		var userId = $("#userId");
+		var password = $("#userPw");
+		
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		var userObject = {
+			userId : userIdVal,
+			password : passwordVal
+		};
+		
+		$.ajax({
+			type : "POST",
+			url : "/interceptor/login",
+			data : JSON.stringify(userObject),
+			contentType : "application/json;charset=UTF-8",
+			success : function(data) {
+				console.log("data: " + data);
+				alert(JSON.stringify(data));
+			}
+		});
+	});
+
+});
+</script>
+
+<body>
+	<h1>Interceptor Home</h1>
+	
+	<br>
+	
+	<h3>LOGIN</h3>
+	<form>
+		userId : <input type="text" name="userId" value="hongkd" id="userId"><br>
+		password : <input type="password" name="userPw" value="pwd2" id="userPw"><br>
+	</form>
+	
+	<button id="registerBtn">REGISTER</button>
+</body>
+</html>

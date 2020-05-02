@@ -77,4 +77,9 @@ public class HomeController {
 	public String errorHandlingHome() {
 		return "errorHandlingHome";
 	}
+	
+	@RequestMapping(value="/interceptorHome", method=RequestMethod.GET)
+	public String interceptorHome() {
+		return "interceptorHome";
+	}
 }
