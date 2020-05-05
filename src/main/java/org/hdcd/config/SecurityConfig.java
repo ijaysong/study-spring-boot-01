@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -23,6 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/security/notice/list").permitAll();
 		http.authorizeRequests().antMatchers("/security/notice/register").hasRole("ADMIN");
 		
+		// 접근 거부가 발생한 상황을 처리하는 접근 거부 처리자의 URI를 지정한다
+		http.exceptionHandling().accessDeniedPage("/accessError");
+				
 		// 폼 기반 인증 기능을 사용한다
 		http.formLogin();
 	}
