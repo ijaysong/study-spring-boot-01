@@ -16,6 +16,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		logger.info("security config");
 		
+		// URL 패턴으로 접근 제한을 설정한다
+		http.authorizeRequests().antMatchers("/security/board/list").permitAll();
+		http.authorizeRequests().antMatchers("/security/board/register").hasRole("MEMBER");
+		http.authorizeRequests().antMatchers("/security/notice/list").permitAll();
+		http.authorizeRequests().antMatchers("/security/notice/register").hasRole("ADMIN");
+		
 		// 폼 기반 인증 기능을 사용한다
 		http.formLogin();
 	}
