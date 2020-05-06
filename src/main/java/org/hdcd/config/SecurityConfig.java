@@ -28,12 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		// 접근 거부가 발생한 상황을 처리하는 접근 거부 처리자의 URI를 지정한다
 		//http.exceptionHandling().accessDeniedPage("/accessError");
+				
+		// 폼 기반 인증 기능을 사용한다
+		// 사용자가 정의한 로그인 페이지의 URI를 지정한다
+		http.formLogin().loginPage("/login");
 		
 		// 등록한 CustomAccessDeniedHandler를 접근 거부 처리자로 지정한다
 		http.exceptionHandling().accessDeniedHandler(createAccessDeniedHandler());
-				
-		// 폼 기반 인증 기능을 사용한다
-		http.formLogin();
 	}
 
 	@Override
