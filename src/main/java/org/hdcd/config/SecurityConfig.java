@@ -36,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 로그인 성공 후 처리를 담당하는 처리자로 지정한다
 		http.formLogin().loginPage("/login").successHandler(createAuthenticationSuccessHandler());
 		
+		// 로그아웃 처리를 위한 URI를 지정하고, 로그아웃한 후에 세션을 무효화 한다
+		http.logout().logoutUrl("/logout").invalidateHttpSession(true);
+		
 		// 등록한 CustomAccessDeniedHandler를 접근 거부 처리자로 지정한다
 		http.exceptionHandling().accessDeniedHandler(createAccessDeniedHandler());
 	}
