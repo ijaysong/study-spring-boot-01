@@ -1,14 +1,19 @@
 package org.hdcd.config;
 
+import javax.sql.DataSource;
+
 import org.hdcd.common.security.CustomAccessDeniedHandler;
 import org.hdcd.common.security.CustomLoginSuccessHandler;
+import org.hdcd.common.security.CustomNoOpPasswordEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -17,6 +22,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+	
+	@Autowired
+	DataSource dataSource;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -49,8 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 지정된 아이디와 패스워드로 로그인이 가능하도록 설정한다
 		// 스프링 시큐리티 5버전부터는 패스워드 암호화 처리기를 반드시 이용하도록 변경이 되었다
 		// 암호화 처리기를 사용하지 않도록 "{noop}" 문자열을 비밀번호 앞에 사용한다
-		auth.inMemoryAuthentication().withUser("member").password("{noop}1234").roles("MEMBER");
-		auth.inMemoryAuthentication().withUser("admin").password("{noop}1234").roles("ADMIN");
+		// auth.inMemoryAuthentication().withUser("member").password("{noop}1234").roles("MEMBER");
+		// auth.inMemoryAuthentication().withUser("admin").password("{noop}1234").roles("ADMIN");
+		
+		// JDBC 인증 제공자
+		auth.jdbcAuthentication()
+		// 데이터 소스를 저장
+		.dataSource(dataSource)
+		// 사용자가 정의한 비밀번호 암호화 처리기를 지정한다.
+		.passwordEncoder(createPasswordEncoder());
 	}
 	
 	// CustomAccessDeniedHandler를 빈으로 등록한다
@@ -63,5 +78,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationSuccessHandler createAuthenticationSuccessHandler() {
 		return new CustomLoginSuccessHandler();
+	}
+	
+	// 사용자가 정의한 비밀번호 암호화 처리기를 빈으로 등록한다
+	@Bean
+	public PasswordEncoder createPasswordEncoder() {
+		return new CustomNoOpPasswordEncoder();
 	}
 }
