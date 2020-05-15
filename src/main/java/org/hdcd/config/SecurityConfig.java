@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -61,11 +62,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// auth.inMemoryAuthentication().withUser("admin").password("{noop}1234").roles("ADMIN");
 		
 		// JDBC 인증 제공자
-		auth.jdbcAuthentication()
+		//auth.jdbcAuthentication()
 		// 데이터 소스를 저장
-		.dataSource(dataSource)
+		//.dataSource(dataSource)
 		// 사용자가 정의한 비밀번호 암호화 처리기를 지정한다.
-		.passwordEncoder(createPasswordEncoder());
+		//.passwordEncoder(createPasswordEncoder());
+		
+		// 스프링 시큐리티가 원하는 결과를 반환하는 쿼리를 작성한다
+		String query1 = "SELECT "
+				+ "user_id, user_pw, enabled"
+				+ "FROM dev_db.member"
+				+ "WHERE"
+				+ "user_id = ?";
+		
+		String query2 = "SELECT"
+				+ "b.user_id,"
+				+ "a.auth"
+				+ "FROM member_auth a,"
+				+ "member b"
+				+ "WEHRE"
+				+ "a.user_no = b.user_no"
+				+ "AND"
+				+ "b.user_id = ?";
+		
+		// 작서한 쿼리를 지정한다
+		auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query1).authoritiesByUsernameQuery(query2)
+		// BCryptPasswordEncoder 비밀번호 암호화 처리기를 지정한다
+		.passwordEncoder(createPasswordEncoder2());
 	}
 	
 	// CustomAccessDeniedHandler를 빈으로 등록한다
@@ -85,4 +108,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder createPasswordEncoder() {
 		return new CustomNoOpPasswordEncoder();
 	}
+	
+	// 스프링 시큐리티에서 제공되는 BCryptPasswordEncoder 클래스를 빈으로 등록한다
+	@Bean
+	public PasswordEncoder createPasswordEncoder2() {
+		return new BCryptPasswordEncoder();
+	}
+
 }
