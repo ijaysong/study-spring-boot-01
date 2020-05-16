@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.hdcd.common.security.CustomAccessDeniedHandler;
 import org.hdcd.common.security.CustomLoginSuccessHandler;
 import org.hdcd.common.security.CustomNoOpPasswordEncoder;
+import org.hdcd.common.security.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -69,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//.passwordEncoder(createPasswordEncoder());
 		
 		// 스프링 시큐리티가 원하는 결과를 반환하는 쿼리를 작성한다
-		String query1 = "SELECT "
+		/*String query1 = "SELECT "
 				+ "user_id, user_pw, enabled"
 				+ "FROM dev_db.member"
 				+ "WHERE"
@@ -83,12 +85,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				+ "WEHRE"
 				+ "a.user_no = b.user_no"
 				+ "AND"
-				+ "b.user_id = ?";
+				+ "b.user_id = ?";*/
 		
 		// 작서한 쿼리를 지정한다
-		auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query1).authoritiesByUsernameQuery(query2)
+		//auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery(query1).authoritiesByUsernameQuery(query2)
 		// BCryptPasswordEncoder 비밀번호 암호화 처리기를 지정한다
-		.passwordEncoder(createPasswordEncoder2());
+		//.passwordEncoder(createPasswordEncoder2());
+		
+		// CustomUserDetailsService 빈을 인증 제공자에 지정한다
+		auth.userDetailsService(createUserDetailsService()).passwordEncoder(createPasswordEncoder());
 	}
 	
 	// CustomAccessDeniedHandler를 빈으로 등록한다
@@ -113,6 +118,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder createPasswordEncoder2() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	// 스프링 시큐리티의 UserDetailService를 구현한 클래스를 빈으로 등록한다
+	@Bean
+	public UserDetailsService createUserDetailsService() {
+		return new CustomUserDetailsService();
 	}
 
 }

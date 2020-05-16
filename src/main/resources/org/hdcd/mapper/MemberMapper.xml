@@ -105,4 +105,23 @@
 			user_no = #{userNo}
 	</delete>
 	
+	<select id="read" resultMap="memberMap">
+		SELECT
+			mem.user_no,
+			mem.user_id,
+			mem.user_pw,
+			mem.user_name,
+			mem.reg_date,
+			mem.upd_date,
+			auth.auth
+		FROM
+			dev_db.member mem
+		LEFT OUTER JOIN 
+			dev_db.member_auth auth
+		ON
+			mem.user_no = auth.user_no
+		WHERE
+			mem.user_id = #{userId}
+	</select>
+	
 </mapper>

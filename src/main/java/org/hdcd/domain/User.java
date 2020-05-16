@@ -48,6 +48,8 @@ public class User implements Serializable{
 	@Valid
 	private List<Card> cardList;
 	
+	
+	
 	public Address getAddress() {
 		return address;
 	}
