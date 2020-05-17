@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<title>Home</title>
@@ -6,6 +6,24 @@
 </head>
 <body>
 	<h1>Hello World!</h1>
-	<p th:text="${serverTime}">The time on the server is ${serverTime}.</p>
+	<p th:text="${serverTime}">시간표시</p>
+	
+	<div>
+		<a href="/security/board/list">Board</a>
+	</div>
+	
+	<div>
+		<a href="/security/notice/list">Notice</a>
+	</div>
+	
+	<!-- 로그인을 하지 않은 경우(익명의 사용자인 경우), True -->
+	<div sec:authorize="isAnonymous()">
+		<a href="/login">로그인</a>
+	</div>
+	
+	<!-- 인증된 사용자인 경우, true -->
+	<div sec:authorize="isAuthenticated()">
+		<a href="/logout">로그아웃</a>
+	</div>
 </body>
 </html>

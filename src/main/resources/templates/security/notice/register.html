@@ -1,9 +1,16 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<title>NOTICE</title>
 </head>
 <body>
 	<h3>NOTICE REGISTER : access to admin</h3>
+	
+	<!-- 사용자 정보 -->
+	<p>principal : <span sec:authentication="principal"></span></p>
+	<p>Member : <span sec:authentication="principal.member"></span></p>
+	<p>사용자 이름 : <span sec:authentication="principal.memver.userName"></span></p>
+	<p>사용자 아이디 : <span sec:authentication="principal.userId"></span></p>
+	<p>사용자 권한 리스트 : <span sec:authentication="principal.member.authList"></span></p>
 </body>
 </html>
