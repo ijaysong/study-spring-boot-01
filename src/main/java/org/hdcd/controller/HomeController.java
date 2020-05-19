@@ -82,4 +82,9 @@ public class HomeController {
 	public String interceptorHome() {
 		return "interceptorHome";
 	}
+	
+	@RequestMapping(value="/jwtHome", method=RequestMethod.GET)
+	public String jwtHome() {
+		return "jwtHome";
+	}
 }
