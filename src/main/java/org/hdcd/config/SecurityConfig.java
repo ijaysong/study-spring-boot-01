@@ -6,6 +6,8 @@ import org.hdcd.common.security.CustomAccessDeniedHandler;
 import org.hdcd.common.security.CustomLoginSuccessHandler;
 import org.hdcd.common.security.CustomNoOpPasswordEncoder;
 import org.hdcd.common.security.CustomUserDetailsService;
+import org.hdcd.common.security.jwt.filter.JwtAuthenticationFilter;
+import org.hdcd.common.security.jwt.filter.JwtAuthorizationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 // 스프링 시큐리티 설정
 @EnableWebSecurity
@@ -37,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		logger.info("security config");
 		
 		// URL 패턴으로 접근 제한을 설정한다
-		http.authorizeRequests().antMatchers("/security/board/list").permitAll();
-		http.authorizeRequests().antMatchers("/security/board/register").hasRole("MEMBER");
-		http.authorizeRequests().antMatchers("/security/notice/list").permitAll();
-		http.authorizeRequests().antMatchers("/security/notice/register").hasRole("ADMIN");
+		// http.authorizeRequests().antMatchers("/security/board/list").permitAll();
+		// http.authorizeRequests().antMatchers("/security/board/register").hasRole("MEMBER");
+		// http.authorizeRequests().antMatchers("/security/notice/list").permitAll();
+		// http.authorizeRequests().antMatchers("/security/notice/register").hasRole("ADMIN");
 		
 		// 접근 거부가 발생한 상황을 처리하는 접근 거부 처리자의 URI를 지정한다
 		//http.exceptionHandling().accessDeniedPage("/accessError");
@@ -48,13 +54,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// 폼 기반 인증 기능을 사용한다
 		// 사용자가 정의한 로그인 페이지의 URI를 지정한다
 		// 로그인 성공 후 처리를 담당하는 처리자로 지정한다
-		http.formLogin().loginPage("/login").successHandler(createAuthenticationSuccessHandler());
+		// http.formLogin().loginPage("/login").successHandler(createAuthenticationSuccessHandler());
 		
 		// 로그아웃 처리를 위한 URI를 지정하고, 로그아웃한 후에 세션을 무효화 한다
-		http.logout().logoutUrl("/logout").invalidateHttpSession(true);
+		// http.logout().logoutUrl("/logout").invalidateHttpSession(true);
 		
 		// 등록한 CustomAccessDeniedHandler를 접근 거부 처리자로 지정한다
-		http.exceptionHandling().accessDeniedHandler(createAccessDeniedHandler());
+		// http.exceptionHandling().accessDeniedHandler(createAccessDeniedHandler());
+		
+		//CORS 설정
+		http.cors()
+		.and()
+		// CSRF 방지 지원 기능 비활성화
+		.csrf().disable()
+		// JWT 인증 필터 보안 컨텍스트에 추가
+		.addFilter(new JwtAuthenticationFilter(authenticationManager()))
+		// JWT 인가 필터 보안 컨첵스트에 추가
+		.addFilter(new JwtAuthorizationFilter(authenticationManager()))
+		// 세션 관리 비활성화
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 	@Override
@@ -129,4 +148,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new CustomUserDetailsService();
 	}
 
+	// CORS 설정
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		
+		return source;
+	}
 }
