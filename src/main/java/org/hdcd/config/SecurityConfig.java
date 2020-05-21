@@ -67,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		// CSRF 방지 지원 기능 비활성화
 		.csrf().disable()
+		.exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and()
 		// JWT 인증 필터 보안 컨텍스트에 추가
 		.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 		// JWT 인가 필터 보안 컨첵스트에 추가
@@ -155,5 +156,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		
 		return source;
+	}
+
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler() {
+		return new CustomAccessDeniedHandler();
 	}
 }
