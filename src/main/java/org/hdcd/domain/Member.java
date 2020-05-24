@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Member implements Serializable{
@@ -25,6 +23,8 @@ public class Member implements Serializable{
 	private Date regDate;
 	private Date updDate;
 	private List<MemberAuth> authList;
+	
+	private boolean enabled;
 	
 	
 	public String getUserId() {
@@ -123,4 +123,11 @@ public class Member implements Serializable{
 		this.authList = authList;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 }

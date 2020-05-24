@@ -45,7 +45,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		Authentication authentication = getAuthentication(request);
 		String header = request.getHeader(SecurityConstants.TOKEN_HEADER);
 		
-		if(StringUtils.isEmpty(header) || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+		if(isEmpty(header) || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -57,7 +57,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
 		
-		if(!StringUtils.isEmpty(token)) {
+		if(isNotEmpty(token)) {
 			try {
 				byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 				Jws<Claims> parsedToken = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token.replace("Bearer", ""));
@@ -67,7 +67,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 				List<SimpleGrantedAuthority> authorities = ((List<?>) parsedToken.getBody().get("rol"))
 					.stream().map(authority -> new SimpleGrantedAuthority((String)authority)).collect(Collectors.toList());
 				
-				if(!StringUtils.isEmpty(username)) {
+				if(isNotEmpty(username)) {
 					return new UsernamePasswordAuthenticationToken(username, null, authorities);
 				}
  			} catch(ExpiredJwtException ex) {
@@ -85,4 +85,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		return null;
 	}
 	
+	private boolean isEmpty(final CharSequence cs) {
+		return cs == null || cs.length() == 0;
+	}
+	
+	private boolean isNotEmpty(final CharSequence cs) {
+		return !isEmpty(cs);
+	}
 }

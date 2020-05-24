@@ -58,11 +58,142 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	<!-- 스프링 시큐리티 토큰 인증 -->
+	$("#securityLoginBtn").on("click", function() {
+		var userId = $("#securityUserId");
+		var password = $("#securityPassword");
+		var userIdVal = userId.val();
+		var passwordVal = password.val();
+		
+		$.ajax({
+			type : "POST",
+			url : "api/authenticate?username="+userIdVal+"&password="+passwordVal,
+			success : function(data, textStatus, xhr) {
+				var responseHeader = xhr.getResponseHeader('Authorization');
+				alert(responseHeader);
+				
+				ACCESS_TOKEN = responseHeader.substr(7);
+				
+				console.log(ACCESS_TOKEN);
+			},
+			error : function(xhr, textStatus, errorThrown) {
+				alert(xhr.getResponseHeader('Authorization'));
+			}
+		});
+	});
+	
+	$("#boardListBtn").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/jwt/boards",
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$("#boardRegisterBtn").on("click", function() {
+		$.ajax({
+			type : "POST",
+			url : "/jwt/boards",
+			contentType : "application/json;charset=UTF-8",
+			headers : {
+				"Authorization" : "Bearer" + ACCESS_TOKEN
+			},
+			success : function(result) {
+				console.log("result:" + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code: " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error : " + error);
+			}
+		});
+	});
+	
+	$("#boardReadBtn").on("click", function() {
+		var boardNo = 10;
+		
+		$.ajax({
+			type : "GET",
+			url : "/jwt/boards/" + boardNo,
+			contentType : "application/json;charset=UTF-8",
+			headers : {
+				"Authorization" : "Bearer" + ACCESS_TOKEN
+			},
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code : " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error : " + error);
+			}
+		});
+	});
+	
+	$("#boardModifyBtn").on("click", function() {
+		var boardNo = 10;
+		
+		$.ajax({
+			type : "PUT",
+			url : "/jwt/boards/" + boardNo,
+			contentType : "application/json;charset=UTF-8",
+			headers : {
+				"Authorization" : "Bearer" + ACCESS_TOKEN
+			},
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code : " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error : " + error);
+			}
+		});
+	});
+	
+	$("#noticeListBtn").on("click", function() {
+		$.ajax({
+			type : "GET",
+			url : "/jwt/notices",
+			contentType : "application/json;charset=UTF-8",
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code : " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error : " + error);
+			}
+		});
+	});
+	
+	$("#noticeRegisterBtn").on("click", function() {
+		$.ajax({
+			type : "POST",
+			url : "/jwt/notices",
+			contentType : "application/json;charset=UTF-8",
+			headers : {
+				"Authorization" : "Bearer" + ACCESS_TOKEN
+			},
+			success : function(result) {
+				console.log("result: " + result);
+				alert(result);
+			},
+			error : function(xhr, status, error) {
+				alert("code : " + xhr.status + "\n" + "message: " + xhr.responseText + "\n" + "error : " + error);
+			}
+		});
+	});
 });
 </script>
 
 <body>
-	<h1>Register Form</h1>
+	<h1>암호화/복호화</h1>
+	<h3>Register Form</h3>
 	<form>
 		userId:<input type="text" name="userId" value="hongkd" id="userId">
 		password : <input type="text" name="password" value="3456" id="password">
@@ -70,6 +201,43 @@ $(document).ready(function() {
 	
 	<button id="loginBtn">login</button>
 	<button id="readBtn">read</button>
+
+	<hr>
+
+	<h1>스프링 시큐리티 토큰 인증</h1>
+	<h3>Login</h3>
+	<table>
+		<tr>
+			<td><label for="securityUserId">userId</label></td>
+			<td><input type="text" value="member2" id="securityUserId"></td>
+		</tr>
+		
+		<tr>
+			<td><label for="securityPassword">password</label></td>
+			<td><input type="text" value="pwd2" id="securityPassword"></td>
+		</tr>
+	</table>
+	
+	<div>
+		<button id="securityLoginBtn">LOGIN</button>
+	</div>
+	
+	<h3>Board</h3>
+	
+	<div>
+		<button id="boardListBtn">LIST</button>
+		<button id="boardRegisterBtn">REGISTER</button>
+		<button id="boardReadBtn">READ</button>
+		<button id="boardModifyBtn">MODIFY</button>
+	</div>
+	
+	<h3>Notice</h3>
+	
+	<div>
+		<button id="noticeListBtn">LIST</button>
+		<button id="noticeReigsterBtn">REGISTER</button>
+	</div>
+
 </body>
 
 </html>
